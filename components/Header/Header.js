@@ -115,7 +115,12 @@ const Header = (props) => {
                             </div>
                             <div className="col-lg-3 col-md-2 col-2">
                                 <div className="header-right">
-                                    <div className="header-search-form-wrapper">
+                                     
+                                     <div data-swiper-parallax="400" className="slide-btn">
+                                        <Link href="https://dashboard--interinest.us-east4.hosted.app" className="theme-btn">Login</Link>
+                                    </div>
+                                     
+                                    {/* <div className="header-search-form-wrapper">
                                         <div className="cart-search-contact">
                                             <button onClick={() => setMenuState(!menuActive)} className="search-toggle-btn"><i
                                                 className={`fi ti-search ${menuActive ? "ti-close" : "fi "}`}></i></button>
@@ -130,8 +135,8 @@ const Header = (props) => {
                                                 </form>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="mini-cart">
+                                    </div> */}
+                                    {/* <div className="mini-cart">
                                         <button className="cart-toggle-btn" onClick={() => setcartState(!cartActive)}>
                                             {" "}
                                             <i className="fi flaticon-shopping-cart"></i>{" "}
@@ -176,7 +181,7 @@ const Header = (props) => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

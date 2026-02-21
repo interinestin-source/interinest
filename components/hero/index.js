@@ -17,7 +17,7 @@ const Hero =() => {
                                         <h2>Find the right interior designer for your  <span>space</span></h2>
                                     </div>
                                     <div data-swiper-parallax="400" className="slide-btn">
-                                        <Link href="/project" className="theme-btn">Join as Designer</Link>
+                                        <Link href="https://dashboard--interinest.us-east4.hosted.app/register" className="theme-btn">Join as Designer</Link>
                                     </div>
                                     <div className="clearfix"></div>
                                 </div>
