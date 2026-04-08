@@ -25,7 +25,7 @@ const HomePage = (props) => {
             <About abimg={abimg}/>
             <ProjectSection />
             <ServiceSection />
-            <FunFact/>
+            {/* <FunFact/> */}
             {/* <TeamSection/> */}
             {/* <Testimonial/> */}
             <BlogSection/>

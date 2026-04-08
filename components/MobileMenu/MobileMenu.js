@@ -41,7 +41,7 @@ const menus = [
     {
         id: 2,
         title: 'About',
-        link: '/about',
+        link: '/home#about-us',
     },
 
 {

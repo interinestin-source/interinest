@@ -499,7 +499,9 @@ img {
 .wpo-section-title-s3 h2 {
   color: #fff;
 }
-
+.theme-btn-color{
+  color: #caab06;
+}
 .theme-btn, .view-cart-btn,
 .theme-btn-s3,
 .theme-btn-s4 {
@@ -563,7 +565,7 @@ img {
   color: #CAAB06;
   display: inline-block;
   font-weight: 600;
-  padding: 15px 45px;
+  padding: 15px 20px;
   border: 1px solid #CAAB06;
   text-transform: capitalize;
   -webkit-backface-visibility: hidden;

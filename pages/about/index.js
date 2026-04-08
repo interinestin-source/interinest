@@ -23,8 +23,8 @@ const AboutPage =() => {
             <ProjectSection/>
             <ServiceSection/>
             <FunFact fnClass={'wpo-fun-fact-section-s2'}/>
-            <Pricing/>
-            <TeamSection/>
+            {/* <Pricing/> */}
+            {/* <TeamSection/> */}
             <Testimonial/>
             <Footer ftClass={'wpo-site-footer-s2'}/>
             <Scrollbar/>

@@ -8,7 +8,7 @@ const About = (props) => {
         window.scrollTo(10, 0);
     }
     return (
-        <div className={`wpo-about-area section-padding ${props.abClass}`}>
+        <div id="about-us" className={`wpo-about-area section-padding ${props.abClass}`}>
             <div className="container">
                 <div className="row align-items-center">
                     <div className="col-lg-5 col-md-12 col-sm-12">
@@ -22,19 +22,10 @@ const About = (props) => {
                                 <span>About Us</span>
                                 <h2>We Offer You Profesional Interior Design</h2>
                             </div>
-                            <h5>Over 25 years Liarch helping investors building their drea & business goals go to the perfection</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac enim aliquam feugiat ullamcorper. Id risus mattis neque, ullamcorper. Sed sit commodo vestibulum cras in cras. Nec proin scelerisque quis nisl vitae, egestas non. Fringilla auctor.</p>
-                            <div className="btns">
-                                <Link href="/about" onClick={ClickHandler} className="theme-btn" >Discover More</Link>
-                                <ul>
-                                    <li className="video-holder">
-                                        <VideoModal />
-                                    </li>
-                                    <li className="video-text">
-                                        Watch Our Video
-                                    </li>
-                                </ul>
-                            </div>
+                            <h5>Interinest is a digital platform built to connect clients with talented freelance and small-scale interior designers across India.</h5>
+                            <p>We believe great design should be accessible not limited to large firms or high-budget projects.mission is to create a space where emerging interior designers can showcase their work, build credibility, and grow their careers, while clients can easily discover and hire designers that match their style and budget.
+</p>
+                           
                         </div>
                     </div>
                 </div>

@@ -23,8 +23,8 @@ const HomePage = (props) => {
             <About abimg={abimg}/>
             <ProjectSection />
             <ServiceSection />
-            <FunFact/>
-            <TeamSection/>
+            {/* <FunFact/> */}
+            {/* <TeamSection/> */}
             <Testimonial/>
             <BlogSection/>
             <Footer/>

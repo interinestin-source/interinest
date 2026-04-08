@@ -24,8 +24,7 @@ const Footer = (props) => {
                                         className="" alt="logo" />
                                     </Link>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, conse ctetur adipiscing elit. Viverra laoreet ultrices
-                                    donec placerat commodo elementum justo, consequat.</p>
+                                <p>Interinest is a digital platform built to connect clients with talented freelance and small-scale interior designers across India..</p>
                                 <ul>
                                     <li>
                                         <Link onClick={ClickHandler} href="/">
@@ -38,15 +37,11 @@ const Footer = (props) => {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link onClick={ClickHandler} href="/">
+                                        <Link onClick={ClickHandler} href="https://www.instagram.com/interinest/">
                                             <i className="ti-instagram"></i>
                                         </Link>
                                     </li>
-                                    <li>
-                                        <Link onClick={ClickHandler} href="/">
-                                            <i className="ti-google"></i>
-                                        </Link>
-                                    </li>
+
                                 </ul>
                             </div>
                         </div>
