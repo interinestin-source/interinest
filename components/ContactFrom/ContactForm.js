@@ -1,46 +1,71 @@
-import React, { useState } from 'react'
-import SimpleReactValidator from 'simple-react-validator';
+import React, { useState } from 'react';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../firebase';
+import { toast } from 'sonner';
 
+const SERVICES = [
+    'Full Home Interior Design',
+    'Living Room / Bedroom Styling',
+    'Kitchen Design',
+    'Office / Commercial Interiors',
+    'Exterior Design',
+    'Consultation Only',
+    'Other',
+];
 
 const ContactForm = () => {
-
     const [forms, setForms] = useState({
         name: '',
         email: '',
-        subject: '',
         phone: '',
-        message: ''
+        service: '',
+        message: '',
     });
-    const [validator] = useState(new SimpleReactValidator({
-        className: 'errorMessage'
-    }));
-    const changeHandler = e => {
-        setForms({ ...forms, [e.target.name]: e.target.value })
-        if (validator.allValid()) {
-            validator.hideMessages();
-        } else {
-            validator.showMessages();
-        }
+    const [submitting, setSubmitting] = useState(false);
+
+    const changeHandler = (e) => {
+        setForms({ ...forms, [e.target.name]: e.target.value });
     };
 
-    const submitHandler = e => {
+    const submitHandler = async (e) => {
         e.preventDefault();
-        if (validator.allValid()) {
-            validator.hideMessages();
-            setForms({
-                name: '',
-                email: '',
-                subject: '',
-                phone: '',
-                message: ''
-            })
-        } else {
-            validator.showMessages();
+
+        if (!forms.name.trim()) {
+            toast.error('Please enter your name.');
+            return;
+        }
+        if (!forms.email.trim()) {
+            toast.error('Please enter your email.');
+            return;
+        }
+        if (!forms.message.trim()) {
+            toast.error('Please enter your message.');
+            return;
+        }
+
+        setSubmitting(true);
+        try {
+            await addDoc(collection(db, 'contactMessages'), {
+                name: forms.name.trim(),
+                email: forms.email.trim(),
+                phone: forms.phone.trim(),
+                service: forms.service,
+                message: forms.message.trim(),
+                createdAt: serverTimestamp(),
+                status: 'new',
+            });
+            toast.success("Message sent! We'll get back to you shortly.");
+            setForms({ name: '', email: '', phone: '', service: '', message: '' });
+        } catch (err) {
+            console.error('Contact form error:', err);
+            toast.error('Failed to send message. Please try again.');
+        } finally {
+            setSubmitting(false);
         }
     };
 
     return (
-        <form onSubmit={(e) => submitHandler(e)} className="contact-validation-active" >
+        <form onSubmit={submitHandler} className="contact-validation-active">
             <div className="row">
                 <div className="col col-lg-6 col-12">
                     <div className="form-field">
@@ -48,10 +73,10 @@ const ContactForm = () => {
                             value={forms.name}
                             type="text"
                             name="name"
-                            onBlur={(e) => changeHandler(e)}
-                            onChange={(e) => changeHandler(e)}
-                            placeholder="Your Name" />
-                        {validator.message('name', forms.name, 'required|alpha_space')}
+                            onChange={changeHandler}
+                            placeholder="Your Name *"
+                            required
+                        />
                     </div>
                 </div>
                 <div className="col col-lg-6 col-12">
@@ -60,58 +85,59 @@ const ContactForm = () => {
                             value={forms.email}
                             type="email"
                             name="email"
-                            onBlur={(e) => changeHandler(e)}
-                            onChange={(e) => changeHandler(e)}
-                            placeholder="Your Email" />
-                        {validator.message('email', forms.email, 'required|email')}
+                            onChange={changeHandler}
+                            placeholder="Your Email *"
+                            required
+                        />
                     </div>
                 </div>
                 <div className="col col-lg-6 col-12">
                     <div className="form-field">
                         <input
                             value={forms.phone}
-                            type="phone"
+                            type="tel"
                             name="phone"
-                            onBlur={(e) => changeHandler(e)}
-                            onChange={(e) => changeHandler(e)}
-                            placeholder="Your phone" />
-                        {validator.message('phone', forms.phone, 'required|phone')}
+                            onChange={changeHandler}
+                            placeholder="Your Phone (optional)"
+                        />
                     </div>
                 </div>
                 <div className="col col-lg-6 col-12">
                     <div className="form-field">
                         <select
-                            onBlur={(e) => changeHandler(e)}
-                            onChange={(e) => changeHandler(e)}
-                            value={forms.subject}
-                            type="text"
-                            name="subject">
-                            <option>Choose a Service</option>
-                            <option>Gas Line Services</option>
-                            <option>Water Line Repair</option>
-                            <option>Bathroom Plumbing</option>
-                            <option>Basement Plumbing</option>
+                            name="service"
+                            value={forms.service}
+                            onChange={changeHandler}
+                        >
+                            <option value="">Choose a Service</option>
+                            {SERVICES.map((s) => (
+                                <option key={s} value={s}>{s}</option>
+                            ))}
                         </select>
-                        {validator.message('subject', forms.subject, 'required')}
                     </div>
                 </div>
                 <div className="col col-lg-12 col-12">
                     <textarea
-                        onBlur={(e) => changeHandler(e)}
-                        onChange={(e) => changeHandler(e)}
-                        value={forms.message}
-                        type="text"
                         name="message"
-                        placeholder="Message">
-                    </textarea>
-                    {validator.message('message', forms.message, 'required')}
+                        value={forms.message}
+                        onChange={changeHandler}
+                        placeholder="Your Message *"
+                        required
+                    />
                 </div>
             </div>
             <div className="submit-area">
-                <button type="submit" className="theme-btn">Submit Now</button>
+                <button
+                    type="submit"
+                    className="theme-btn"
+                    disabled={submitting}
+                    style={{ opacity: submitting ? 0.7 : 1, cursor: submitting ? 'not-allowed' : 'pointer' }}
+                >
+                    {submitting ? 'Sending…' : 'Send Message'}
+                </button>
             </div>
-        </form >
-    )
-}
+        </form>
+    );
+};
 
 export default ContactForm;

@@ -19,6 +19,16 @@ const AdminPage = () => {
           <h2 className="text-xl font-semibold text-slate-800">Welcome, Admin</h2>
           <div className="flex items-center gap-3">
             <Link
+              href="/dashboard/admin/messages"
+              className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition"
+              title="View contact form submissions"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Messages
+            </Link>
+            <Link
               href="/dashboard/admin/seed"
               className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition"
               title="Add sample designers and projects"

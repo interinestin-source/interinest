@@ -135,11 +135,6 @@ const menus = [
                 link: '/pricing'
             },
             {
-                id: 75,
-                title: 'Testimonial',
-                link: '/testimonial'
-            },
-            {
                 id: 76,
                 title: 'Error 404',
                 link: '/404'
