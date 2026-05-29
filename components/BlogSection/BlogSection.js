@@ -2,8 +2,8 @@ import React from "react";
 import blogs from '../../api/blogs'
 import Link from "next/link";
 import SectionTitle from "../SectionTitle";
-import bShape1 from '/public/images/blog/Vector1.png'
-import bShape2 from '/public/images/blog/Vector2.png'
+import bShape1 from '@/public/images/blog/Vector1.png'
+import bShape2 from '@/public/images/blog/Vector2.png'
 import Image from 'next/image'
 
 const ClickHandler = () => {

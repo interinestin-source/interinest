@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import Logo from '/public/images/logo-2.svg'
+import Logo from '@/public/images/logo-2.svg'
 import Link from "next/link";
 import Image from 'next/image'
 import MobileMenu from '../../components/MobileMenu/MobileMenu'
@@ -95,8 +95,8 @@ const Header2 = (props) => {
                                                 <li><Link onClick={ClickHandler} href="/team-single/William-Watson">Team Single</Link></li>
                                                 <li><Link onClick={ClickHandler} href="/testimonial">Testimonial</Link></li>
                                                 <li><Link onClick={ClickHandler} href="/404">404 Error</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/login">Login</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/register">Register</Link></li>
+                                                <li><Link onClick={ClickHandler} href="/dashboard/login">Login</Link></li>
+                                                <li><Link onClick={ClickHandler} href="/dashboard/register">Register</Link></li>
                                             </ul>
                                         </li>
                                         <li><Link onClick={ClickHandler} href="/contact">Contact</Link></li>

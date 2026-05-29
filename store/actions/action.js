@@ -1,6 +1,5 @@
 import * as types from "./type";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
 import {
   ADD_TO_WISHLIST,
   REMOVE_FROM_WISHLIST,

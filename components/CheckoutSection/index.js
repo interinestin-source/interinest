@@ -21,10 +21,10 @@ import {totalPrice} from "../../utils";
 import Image from 'next/image'
 
 // images
-import visa from '/public/images/icon/visa.png';
-import mastercard from '/public/images/icon/mastercard.png';
-import skrill from '/public/images/icon/skrill.png';
-import paypal from '/public/images/icon/paypal.png';
+import visa from '@/public/images/icon/visa.png';
+import mastercard from '@/public/images/icon/mastercard.png';
+import skrill from '@/public/images/icon/skrill.png';
+import paypal from '@/public/images/icon/paypal.png';
 
 import CheckWrap from '../CheckWrap'
 

@@ -1,7 +1,7 @@
-import timg1 from '/public/images/team/img-1.jpg'
-import timg2 from '/public/images/team/img-2.jpg'
-import timg3 from '/public/images/team/img-3.jpg'
-import timg4 from '/public/images/team/img-4.jpg'
+import timg1 from '@/public/images/team/img-1.jpg'
+import timg2 from '@/public/images/team/img-2.jpg'
+import timg3 from '@/public/images/team/img-3.jpg'
+import timg4 from '@/public/images/team/img-4.jpg'
 
 const Teams = [
    {

@@ -10,8 +10,8 @@ import TeamSection from '../../components/TeamSection';
 import Testimonial from '../../components/Testimonial';
 import Footer from '../../components/footer/Footer'
 import Scrollbar from '../../components/scrollbar/scrollbar'
-import Logo from '/public/images/logo.svg'
-import abimg from '/public/images/about.jpg'
+import Logo from '@/public/images/logo.svg'
+import abimg from '@/public/images/about.jpg'
 
 
 const AboutPage =() => {

@@ -2,8 +2,12 @@ import React from 'react'
 import Link from 'next/link'
 
 const PageTitle = (props) => {
+    const bgStyle = props.bgImage
+        ? { backgroundImage: `url(${props.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center center' }
+        : undefined;
+
     return(
-        <section className="wpo-page-title">
+        <section className="wpo-page-title" style={bgStyle}>
             <div className="container">
                 <div className="row">
                     <div className="col col-xs-12">

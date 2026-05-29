@@ -2,8 +2,8 @@ import React from "react";
 import blogs from '../../api/blogs'
 import Link from "next/link";
 import SectionTitle3 from "../SectionTitle3";
-import bShape1 from '/public/images/blog/Vector3.png'
-import bShape2 from '/public/images/blog/Vector4.png'
+import bShape1 from '@/public/images/blog/Vector3.png'
+import bShape2 from '@/public/images/blog/Vector4.png'
 import Image from 'next/image'
 
 const BlogSectionS2 = (props) => {

@@ -5,11 +5,11 @@ import ProjectSectionS4 from '../../components/ProjectsS4';
 import ServiceSection3 from '../../components/Services3';
 import Scrollbar from '../../components/scrollbar/scrollbar';
 import Pricing from '../../components/Pricing';
-import Logo from '/public/images/logo.svg'
+import Logo from '@/public/images/logo.svg'
 import About from '../../components/about/about';
 import BlogSectionS2 from '../../components/BlogSectionS2';
 import Footer from '../../components/footer/Footer';
-import abimg from '/public/images/about6.png'
+import abimg from '@/public/images/about6.png'
 
 const HomePage5 = (props) => {
 

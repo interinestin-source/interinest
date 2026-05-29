@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import MobileMenu from "../MobileMenu/MobileMenu";
@@ -9,6 +9,48 @@ import { removeFromCart } from "../../store/actions/action";
 const Header = (props) => {
   const [menuActive, setMenuState] = useState(false);
   const [cartActive, setcartState] = useState(false);
+  const [authUser, setAuthUser] = useState(null); // { uid, role, initial }
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Read auth cookies on mount
+  useEffect(() => {
+    const getCookie = (name) => {
+      const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return m ? decodeURIComponent(m[2]) : null;
+    };
+    const uid = getCookie("uid");
+    const role = getCookie("role");
+    if (uid && role) {
+      setAuthUser({ uid, role });
+    }
+  }, []);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handler = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const getDashboardHref = (role) => {
+    if (role === "admin") return "/dashboard/admin";
+    if (role === "designer") return "/dashboard/designer-dashboard";
+    return "/dashboard/login";
+  };
+
+  const handleLogout = () => {
+    document.cookie = "uid=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.cookie = "authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.cookie = "role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    setAuthUser(null);
+    setDropdownOpen(false);
+    window.location.href = "/";
+  };
 
   const SubmitHandler = (e) => {
     e.preventDefault();
@@ -74,6 +116,16 @@ const Header = (props) => {
                     <li>
                       <Link onClick={ClickHandler} href="/home#about-us">
                         About
+                      </Link>
+                    </li>
+                    <li>
+                      <Link onClick={ClickHandler} href="/designers">
+                        Designers
+                      </Link>
+                    </li>
+                    <li>
+                      <Link onClick={ClickHandler} href="/projects">
+                        Projects
                       </Link>
                     </li>
                     {/* <li className="menu-item-has-children">
@@ -168,15 +220,116 @@ const Header = (props) => {
               </div>
               <div className="col-lg-3 col-md-2 col-2">
                 <div className="header-right">
-                  <div data-swiper-parallax="400" className="slide-btn">
-                    <Link
-                      href="https://dashboard--interinest.us-east4.hosted.app"
-                      className="theme-btn"
-                    >
-                     Join as Designer
-                    </Link>
-                  </div>
-                 
+                  {authUser ? (
+                    /* ── Logged-in: profile avatar + dropdown ── */
+                    <div ref={dropdownRef} style={{ position: "relative", display: "inline-block" }}>
+                      <button
+                        onClick={() => setDropdownOpen((o) => !o)}
+                        style={{
+                          display: "flex", alignItems: "center", gap: "8px",
+                          background: "none", border: "1px solid rgba(255,255,255,0.35)",
+                          borderRadius: "50px", padding: "6px 14px 6px 6px",
+                          cursor: "pointer", color: "inherit",
+                        }}
+                        aria-label="Account menu"
+                      >
+                        {/* Avatar circle */}
+                        <span style={{
+                          width: 32, height: 32, borderRadius: "50%",
+                          background: "#7593b4", color: "#fff",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          fontWeight: 700, fontSize: 14, flexShrink: 0,
+                        }}>
+                          {authUser.role === "admin" ? "A"
+                            : authUser.role === "designer" ? "D"
+                            : "U"}
+                        </span>
+                        <span style={{ fontSize: 13, fontWeight: 500, textTransform: "capitalize" }}>
+                          {authUser.role}
+                        </span>
+                        {/* Chevron */}
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                          style={{ transition: "transform 0.2s", transform: dropdownOpen ? "rotate(180deg)" : "none" }}>
+                          <path d="M6 9l6 6 6-6" />
+                        </svg>
+                      </button>
+
+                      {/* Dropdown */}
+                      {dropdownOpen && (
+                        <div style={{
+                          position: "absolute", top: "calc(100% + 10px)", right: 0,
+                          minWidth: 180, background: "#fff", borderRadius: 14,
+                          boxShadow: "0 8px 30px rgba(0,0,0,0.12)", border: "1px solid #e8edf2",
+                          overflow: "hidden", zIndex: 9999,
+                        }}>
+                          {/* Role badge */}
+                          <div style={{
+                            padding: "10px 16px 8px", borderBottom: "1px solid #f0f0f0",
+                            fontSize: 11, color: "#7593b4", fontWeight: 600,
+                            textTransform: "uppercase", letterSpacing: "0.08em",
+                          }}>
+                            Signed in as {authUser.role}
+                          </div>
+
+                          {/* Dashboard link */}
+                          <Link
+                            href={getDashboardHref(authUser.role)}
+                            onClick={() => setDropdownOpen(false)}
+                            style={{
+                              display: "flex", alignItems: "center", gap: 10,
+                              padding: "11px 16px", fontSize: 14, color: "#1e293b",
+                              textDecoration: "none", transition: "background 0.15s",
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.background = "#f5f8fb"}
+                            onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                              stroke="#7593b4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <rect x="3" y="3" width="7" height="7" rx="1" />
+                              <rect x="14" y="3" width="7" height="7" rx="1" />
+                              <rect x="3" y="14" width="7" height="7" rx="1" />
+                              <rect x="14" y="14" width="7" height="7" rx="1" />
+                            </svg>
+                            Dashboard
+                          </Link>
+
+                          {/* Divider */}
+                          <div style={{ height: 1, background: "#f0f0f0", margin: "0 12px" }} />
+
+                          {/* Logout */}
+                          <button
+                            onClick={handleLogout}
+                            style={{
+                              display: "flex", alignItems: "center", gap: 10,
+                              width: "100%", padding: "11px 16px",
+                              fontSize: 14, color: "#dc2626",
+                              background: "none", border: "none", cursor: "pointer",
+                              textAlign: "left", transition: "background 0.15s",
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.background = "#fef2f2"}
+                            onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                              stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+                              <polyline points="16 17 21 12 16 7" />
+                              <line x1="21" y1="12" x2="9" y2="12" />
+                            </svg>
+                            Logout
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    /* ── Not logged in: Login button ── */
+                    <div data-swiper-parallax="400" className="slide-btn">
+                      <Link href="/dashboard/login" className="theme-btn">
+                        Login
+                      </Link>
+                    </div>
+                  )}
+
                   {/* <div className="header-search-form-wrapper">
                                         <div className="cart-search-contact">
                                             <button onClick={() => setMenuState(!menuActive)} className="search-toggle-btn"><i

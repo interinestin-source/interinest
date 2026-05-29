@@ -9,7 +9,7 @@ import PageTitle from '../../components/pagetitle/PageTitle';
 import ProductTabs from './alltab';
 import Footer from '../../components/footer/Footer';
 import Scrollbar from '../../components/scrollbar/scrollbar'
-import Logo from '/public/images/logo.svg'
+import Logo from '@/public/images/logo.svg'
 
 
 

@@ -24,7 +24,7 @@ const Footer = (props) => {
                                         className="" alt="logo" />
                                     </Link>
                                 </div>
-                                <p>Interinest is a digital platform built to connect clients with talented freelance and small-scale interior designers across India..</p>
+                                <p>Interinest is a curated marketplace for discovering and hiring independent interior designers in India. We empower design professionals and help clients bring their spaces to life.</p>
                                 <ul>
                                     <li>
                                         <Link onClick={ClickHandler} href="/">

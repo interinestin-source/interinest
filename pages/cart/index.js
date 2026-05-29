@@ -12,7 +12,7 @@ import {
   decrementQuantity,
 } from "../../store/actions/action";
 import Footer from "../../components/footer/Footer";
-import Logo from '/public/images/logo.svg'
+import Logo from '@/public/images/logo.svg'
 
 const CartPage = (props) => {
   const ClickHandler = () => {

@@ -3,10 +3,10 @@ import Slider from "react-slick";
 import Link from 'next/link'
 import Image from 'next/image'
 
-import hImg1 from '/public/images/slider/s2.jpg'
-import hImg2 from '/public/images/slider/s3.jpg'
-import hImg3 from '/public/images/slider/s4.jpg'
-import hImg4 from '/public/images/slider/s2.jpg'
+import hImg1 from '@/public/images/slider/s2.jpg'
+import hImg2 from '@/public/images/slider/s3.jpg'
+import hImg3 from '@/public/images/slider/s4.jpg'
+import hImg4 from '@/public/images/slider/s2.jpg'
 
 
 

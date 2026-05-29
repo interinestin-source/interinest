@@ -43,6 +43,16 @@ const menus = [
         title: 'About',
         link: '/home#about-us',
     },
+    {
+        id: 6,
+        title: 'Designers',
+        link: '/designers',
+    },
+    {
+        id: 7,
+        title: 'Projects',
+        link: '/projects',
+    },
 
 {
     id: 3,
@@ -138,12 +148,12 @@ const menus = [
             {
                 id: 77,
                 title: 'Login',
-                link: '/login'
+                link: '/dashboard/login'
             },
             {
                 id: 78,
                 title: 'Register',
-                link: '/register'
+                link: '/dashboard/register'
             },
             
         ]

@@ -1,4 +1,4 @@
-import "react-toastify/dist/ReactToastify.min.css";
+import "react-toastify/dist/ReactToastify.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/animate.css'
 import '../styles/flaticon.css'
@@ -12,11 +12,15 @@ import { store, persistor } from "../store/index";
 import { Provider } from "react-redux";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+        <Head>
+          <title>Interior Designers in India for Home &amp; Office | Interinest</title>
+        </Head>
         <Component {...pageProps} />
         <ToastContainer />
       </PersistGate>

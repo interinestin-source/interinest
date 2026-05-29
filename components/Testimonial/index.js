@@ -1,9 +1,9 @@
 import React from "react";
 import Slider from "react-slick";
 import SectionTitle from "../SectionTitle";
-import ts1 from '/public/images/testimonial/img-1.jpg'
-import ts2 from '/public/images/testimonial/img-2.jpg'
-import ts3 from '/public/images/testimonial/img-3.jpg'
+import ts1 from '@/public/images/testimonial/img-1.jpg'
+import ts2 from '@/public/images/testimonial/img-2.jpg'
+import ts3 from '@/public/images/testimonial/img-3.jpg'
 import Image from 'next/image'
 
 

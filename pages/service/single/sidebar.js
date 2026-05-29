@@ -1,12 +1,12 @@
 import React from 'react'
 import Services from '../../../api/service';
 import Link from 'next/link'
-import ins1 from '/public/images/instragram/7.jpg'
-import ins2 from '/public/images/instragram/8.jpg'
-import ins3 from '/public/images/instragram/9.jpg'
-import ins4 from '/public/images/instragram/10.jpg'
-import ins5 from '/public/images/instragram/11.jpg'
-import ins6 from '/public/images/instragram/12.jpg'
+import ins1 from '@/public/images/instragram/7.jpg'
+import ins2 from '@/public/images/instragram/8.jpg'
+import ins3 from '@/public/images/instragram/9.jpg'
+import ins4 from '@/public/images/instragram/10.jpg'
+import ins5 from '@/public/images/instragram/11.jpg'
+import ins6 from '@/public/images/instragram/12.jpg'
 import Image from 'next/image'
 
 const ServiceSidebar = (props) => {

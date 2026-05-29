@@ -22,18 +22,12 @@ const Hero = () => {
                       <span>space</span>
                     </h2>
                   </div>
-                  <div data-swiper-parallax="400" className="slide-btn" style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+                  <div data-swiper-parallax="400" className="slide-btn">
                     <Link
-                      href="https://dashboard--interinest.us-east4.hosted.app/register"
+                      href="/dashboard/register"
                       className="theme-btn"
                     >
                       Join as Designer
-                    </Link>
-                    <Link
-                      href="https://dashboard--interinest.us-east4.hosted.app/login"
-                      className="theme-btn"
-                    >
-                      Login
                     </Link>
                   </div>
                   <div className="clearfix"></div>

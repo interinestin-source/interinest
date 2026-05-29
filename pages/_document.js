@@ -1,26 +1,18 @@
-import Document, { Head, Main, NextScript } from 'next/document'
+import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 export default class MyDocument extends Document {
-  static getInitialProps({ renderPage }) {
-    // Returns an object like: { html, head, errorHtml, chunks, styles }     
-    return renderPage();
-  }
-
   render() {
     return (
-      <html>
+      <Html lang="en">
         <Head>
-          <title>Interinest - Architecture & Interior Digital Platform</title>
-         <link rel="icon" href="/favicon.ico" />
-          {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-          <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"></link> */}
+          <meta name="description" content="Find affordable interior designers in India for homes, cafes, offices, and commercial spaces. Compare portfolios and hire the right designer for your project." />
+          <link rel="icon" href="/favicon.ico" />
         </Head>
         <body>
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     )
   }
 }

@@ -5,8 +5,8 @@ import Navbar from '../components/Navbar/Navbar';
 import ProjectSection from '../components/Projects';
 import ServiceSection from '../components/Services';
 import Scrollbar from '../components/scrollbar/scrollbar';
-import Logo from '/public/images/logo.svg'
-import abimg from '/public/images/about.jpg'
+import Logo from '@/public/images/logo.svg'
+import abimg from '@/public/images/about.jpg'
 import FunFact from '../components/FunFact/FunFact';
 import TeamSection from '../components/TeamSection';
 import Testimonial from '../components/Testimonial';

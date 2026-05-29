@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
-import abimg from '/public/images/about2.jpg'
-import abimg2 from '/public/images/about3.jpg'
+import abimg from '@/public/images/about2.jpg'
+import abimg2 from '@/public/images/about3.jpg'
 import Image from 'next/image'
 import VideoModal from '../ModalVideo/VideoModal'
 
