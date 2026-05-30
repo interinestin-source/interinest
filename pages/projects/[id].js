@@ -5,8 +5,15 @@ import PageTitle from '../../components/pagetitle/PageTitle';
 import Footer from '../../components/footer/Footer';
 import Scrollbar from '../../components/scrollbar/scrollbar';
 import Link from 'next/link';
-import { doc, getDoc, collection, getDocs, query, where, limit } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs, addDoc, deleteDoc, query, where, limit, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { toast } from 'sonner';
+
+function getCookie(name) {
+  if (typeof document === 'undefined') return null;
+  const m = document.cookie.match(new RegExp(`${name}=([^;]+)`));
+  return m ? m[1] : null;
+}
 
 const ProjectDetailPage = () => {
   const router = useRouter();
@@ -17,6 +24,50 @@ const ProjectDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [activeImg, setActiveImg] = useState(0);
   const [lightbox, setLightbox] = useState(null);
+  const [uid, setUid] = useState(null);
+  const [saved, setSaved] = useState(false);
+  const [saveDocId, setSaveDocId] = useState(null);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    const cookieUid = getCookie('uid');
+    setUid(cookieUid);
+  }, []);
+
+  // Check if project already saved
+  useEffect(() => {
+    if (!uid || !id) return;
+    const checkSaved = async () => {
+      const q = query(collection(db, 'savedProjects'), where('userId', '==', uid), where('projectId', '==', id));
+      const snap = await getDocs(q);
+      if (!snap.empty) { setSaved(true); setSaveDocId(snap.docs[0].id); }
+    };
+    checkSaved().catch(console.error);
+  }, [uid, id]);
+
+  const handleSave = async () => {
+    if (!uid) { router.push('/dashboard/login'); return; }
+    setSaving(true);
+    try {
+      if (saved) {
+        await deleteDoc(doc(db, 'savedProjects', saveDocId));
+        setSaved(false); setSaveDocId(null);
+        toast.success('Removed from saved');
+      } else {
+        const ref = await addDoc(collection(db, 'savedProjects'), {
+          userId: uid, projectId: id,
+          projectTitle: project.title || '',
+          projectImage: images[0] || null,
+          projectCategory: project.category || '',
+          projectLocation: project.location || '',
+          savedAt: serverTimestamp(),
+        });
+        setSaved(true); setSaveDocId(ref.id);
+        toast.success('Project saved!');
+      }
+    } catch (e) { console.error(e); toast.error('Something went wrong'); }
+    finally { setSaving(false); }
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -268,6 +319,30 @@ const ProjectDetailPage = () => {
                     </a>
                   )}
                 </div>
+              )}
+
+              {/* Save Project button */}
+              <button
+                onClick={handleSave}
+                disabled={saving}
+                style={{
+                  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                  padding: '11px 0', borderRadius: 14, border: `1.5px solid ${saved ? '#e2d6c3' : '#7593b4'}`,
+                  background: saved ? '#fdf8f0' : '#7593b4', color: saved ? '#9b8c77' : '#fff',
+                  fontWeight: 600, fontSize: 14, cursor: saving ? 'not-allowed' : 'pointer',
+                  marginBottom: 14, transition: 'all 0.2s'
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill={saved ? '#9b8c77' : 'none'} stroke="currentColor" strokeWidth="2">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+                {saving ? '...' : saved ? 'Saved' : 'Save Project'}
+              </button>
+
+              {!uid && (
+                <p style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center', marginBottom: 14, lineHeight: 1.5 }}>
+                  <Link href="/dashboard/login" style={{ color: '#7593b4', fontWeight: 600 }}>Log in</Link> to save this project.
+                </p>
               )}
 
               {/* Back link */}

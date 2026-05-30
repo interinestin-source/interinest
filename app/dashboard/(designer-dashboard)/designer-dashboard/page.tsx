@@ -59,6 +59,13 @@ const quickActions = [
     primary: false,
   },
   {
+    label: "Client Enquiries",
+    desc: "View messages from clients",
+    href: "/dashboard/designer-dashboard/inquiries",
+    icon: FileText,
+    primary: false,
+  },
+  {
     label: "My E-Portfolio",
     desc: "View your public profile",
     href: "/dashboard/designer-dashboard/portfolio",

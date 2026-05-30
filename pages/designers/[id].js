@@ -5,26 +5,53 @@ import PageTitle from '../../components/pagetitle/PageTitle';
 import Footer from '../../components/footer/Footer';
 import Scrollbar from '../../components/scrollbar/scrollbar';
 import Link from 'next/link';
-import { doc, getDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  doc, getDoc, collection, getDocs, addDoc, deleteDoc,
+  query, where, serverTimestamp
+} from 'firebase/firestore';
 import { db } from '../../firebase';
+import { toast } from 'sonner';
+
+function getCookie(name) {
+  if (typeof document === 'undefined') return null;
+  const m = document.cookie.match(new RegExp(`${name}=([^;]+)`));
+  return m ? m[1] : null;
+}
+
+const BUDGET_OPTIONS = ['Under ₹2 Lakh', '₹2–5 Lakh', '₹5–10 Lakh', '₹10–20 Lakh', '₹20 Lakh+'];
 
 const DesignerDetailPage = () => {
   const router = useRouter();
   const { id } = router.query;
+
   const [designer, setDesigner] = useState(null);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [lightbox, setLightbox] = useState(null); // url or null
+  const [lightbox, setLightbox] = useState(null);
+
+  // Auth + interaction state
+  const [uid, setUid] = useState(null);
+  const [saved, setSaved] = useState(false);
+  const [saveDocId, setSaveDocId] = useState(null);
+  const [saving, setSaving] = useState(false);
+
+  // Inquiry form
+  const [showInquiry, setShowInquiry] = useState(false);
+  const [inquiry, setInquiry] = useState({ subject: '', budget: '', message: '' });
+  const [sendingInquiry, setSendingInquiry] = useState(false);
 
   useEffect(() => {
+    const cookieUid = getCookie('uid');
+    setUid(cookieUid);
+
     if (!id) return;
+
     const load = async () => {
       try {
         const snap = await getDoc(doc(db, 'interinestUsers', id));
         if (snap.exists()) {
           const data = { id: snap.id, ...snap.data() };
           setDesigner(data);
-          // fetch this designer's published projects
           const pq = query(collection(db, 'projects'), where('uid', '==', id), where('status', '==', 'Published'));
           const pSnap = await getDocs(pq);
           setProjects(pSnap.docs.map(d => ({ id: d.id, ...d.data() })));
@@ -37,6 +64,85 @@ const DesignerDetailPage = () => {
     };
     load();
   }, [id]);
+
+  // Check if already saved
+  useEffect(() => {
+    if (!uid || !id) return;
+    const checkSaved = async () => {
+      const q = query(
+        collection(db, 'savedDesigners'),
+        where('userId', '==', uid),
+        where('designerId', '==', id)
+      );
+      const snap = await getDocs(q);
+      if (!snap.empty) {
+        setSaved(true);
+        setSaveDocId(snap.docs[0].id);
+      }
+    };
+    checkSaved().catch(console.error);
+  }, [uid, id]);
+
+  const handleSave = async () => {
+    if (!uid) {
+      router.push('/dashboard/login');
+      return;
+    }
+    setSaving(true);
+    try {
+      if (saved) {
+        await deleteDoc(doc(db, 'savedDesigners', saveDocId));
+        setSaved(false);
+        setSaveDocId(null);
+        toast.success('Removed from saved');
+      } else {
+        const ref = await addDoc(collection(db, 'savedDesigners'), {
+          userId: uid,
+          designerId: id,
+          designerName: designer.fullName || '',
+          designerCity: designer.city || '',
+          designerPhoto: designer.photoURL || null,
+          designerRole: designer.profileRole || 'solo',
+          savedAt: serverTimestamp(),
+        });
+        setSaved(true);
+        setSaveDocId(ref.id);
+        toast.success('Designer saved to your list!');
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error('Something went wrong');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleSendInquiry = async (e) => {
+    e.preventDefault();
+    if (!uid) { router.push('/dashboard/login'); return; }
+    if (!inquiry.message.trim()) { toast.error('Please write a message'); return; }
+    setSendingInquiry(true);
+    try {
+      await addDoc(collection(db, 'inquiries'), {
+        userId: uid,
+        designerId: id,
+        designerName: designer.fullName || '',
+        subject: inquiry.subject.trim(),
+        budget: inquiry.budget,
+        message: inquiry.message.trim(),
+        status: 'new',
+        createdAt: serverTimestamp(),
+      });
+      toast.success('Inquiry sent! The designer will get in touch.');
+      setShowInquiry(false);
+      setInquiry({ subject: '', budget: '', message: '' });
+    } catch (e) {
+      console.error(e);
+      toast.error('Failed to send inquiry. Try again.');
+    } finally {
+      setSendingInquiry(false);
+    }
+  };
 
   if (loading) return (
     <Fragment>
@@ -87,6 +193,8 @@ const DesignerDetailPage = () => {
         .info-row { display:flex; align-items:flex-start; gap:10px; padding:12px 0; border-bottom:1px solid #f1f5f9; }
         .info-label { min-width:130px; font-size:12px; font-weight:600; color:#94a3b8; text-transform:uppercase; letter-spacing:0.06em; padding-top:1px; }
         .info-value { font-size:14px; color:#1e293b; flex:1; }
+        .inq-input { width:100%; border:1.5px solid #e2e8f0; border-radius:10px; padding:10px 14px; font-size:13px; outline:none; background:#fff; }
+        .inq-input:focus { border-color:#7593b4; }
       `}</style>
 
       <div style={{ background: '#f8f4ec', paddingBottom: 80 }}>
@@ -131,10 +239,97 @@ const DesignerDetailPage = () => {
                   <h2 style={{ fontSize: 18, fontWeight: 700, color: '#1e293b', margin: '0 0 4px' }}>{designer.fullName}</h2>
                   <p style={{ fontSize: 13, color: '#7593b4', fontWeight: 500, margin: '0 0 4px' }}>{roleLabel}</p>
                   {designer.city && (
-                    <p style={{ fontSize: 12, color: '#94a3b8', margin: '0 0 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+                    <p style={{ fontSize: 12, color: '#94a3b8', margin: '0 0 18px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
                       {designer.city}{designer.state ? `, ${designer.state}` : ''}
                     </p>
+                  )}
+
+                  {/* ── SAVE + INQUIRY BUTTONS ── */}
+                  <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+                    <button
+                      onClick={handleSave}
+                      disabled={saving}
+                      style={{
+                        flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                        padding: '10px 0', borderRadius: 12, fontSize: 13, fontWeight: 600,
+                        border: `1.5px solid ${saved ? '#e2d6c3' : '#7593b4'}`,
+                        background: saved ? '#fdf8f0' : '#7593b4',
+                        color: saved ? '#9b8c77' : '#fff',
+                        cursor: saving ? 'not-allowed' : 'pointer', transition: 'all 0.2s'
+                      }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill={saved ? '#9b8c77' : 'none'} stroke="currentColor" strokeWidth="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                      </svg>
+                      {saving ? '...' : saved ? 'Saved' : 'Save'}
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (!uid) { router.push('/dashboard/login'); return; }
+                        setShowInquiry(v => !v);
+                      }}
+                      style={{
+                        flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                        padding: '10px 0', borderRadius: 12, fontSize: 13, fontWeight: 600,
+                        border: '1.5px solid #7593b4', background: showInquiry ? '#eef2f7' : '#fff',
+                        color: '#7593b4', cursor: 'pointer', transition: 'all 0.2s'
+                      }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                      </svg>
+                      Enquire
+                    </button>
+                  </div>
+
+                  {/* ── INQUIRY FORM ── */}
+                  {showInquiry && (
+                    <form onSubmit={handleSendInquiry} style={{
+                      background: '#f8f4ec', borderRadius: 14, padding: 16,
+                      marginBottom: 12, textAlign: 'left'
+                    }}>
+                      <p style={{ fontSize: 13, fontWeight: 700, color: '#1e293b', marginBottom: 12 }}>Send an Enquiry</p>
+                      <div style={{ marginBottom: 10 }}>
+                        <input
+                          className="inq-input"
+                          placeholder="Subject (e.g. Home Renovation)"
+                          value={inquiry.subject}
+                          onChange={e => setInquiry(v => ({ ...v, subject: e.target.value }))}
+                        />
+                      </div>
+                      <div style={{ marginBottom: 10 }}>
+                        <select
+                          className="inq-input"
+                          value={inquiry.budget}
+                          onChange={e => setInquiry(v => ({ ...v, budget: e.target.value }))}
+                        >
+                          <option value="">Budget range (optional)</option>
+                          {BUDGET_OPTIONS.map(b => <option key={b} value={b}>{b}</option>)}
+                        </select>
+                      </div>
+                      <div style={{ marginBottom: 12 }}>
+                        <textarea
+                          className="inq-input"
+                          rows={3}
+                          placeholder="Describe your project or requirement..."
+                          value={inquiry.message}
+                          onChange={e => setInquiry(v => ({ ...v, message: e.target.value }))}
+                          required
+                          style={{ resize: 'none' }}
+                        />
+                      </div>
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <button type="button" onClick={() => setShowInquiry(false)}
+                          style={{ flex: 1, padding: '9px 0', borderRadius: 10, border: '1px solid #e2e8f0', background: '#fff', fontSize: 12, color: '#64748b', cursor: 'pointer' }}>
+                          Cancel
+                        </button>
+                        <button type="submit" disabled={sendingInquiry}
+                          style={{ flex: 2, padding: '9px 0', borderRadius: 10, border: 'none', background: '#7593b4', color: '#fff', fontSize: 12, fontWeight: 600, cursor: sendingInquiry ? 'not-allowed' : 'pointer' }}>
+                          {sendingInquiry ? 'Sending…' : 'Send Enquiry'}
+                        </button>
+                      </div>
+                    </form>
                   )}
 
                   {/* Contact buttons */}
@@ -142,67 +337,49 @@ const DesignerDetailPage = () => {
                     {designer.phone && (
                       <a href={`tel:${designer.phone}`} style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                        background: '#7593b4', color: '#fff', borderRadius: 12, padding: '10px 0',
-                        fontWeight: 600, fontSize: 14, textDecoration: 'none'
+                        background: '#f1f5f9', color: '#475569', borderRadius: 12, padding: '10px 0',
+                        fontWeight: 600, fontSize: 13, textDecoration: 'none'
                       }}>
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.18 19.79 19.79 0 01.22 4a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                        Call Now
-                      </a>
-                    )}
-                    {designer.email && (
-                      <a href={`mailto:${designer.email}`} style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                        background: '#fff', color: '#7593b4', border: '1.5px solid #7593b4',
-                        borderRadius: 12, padding: '10px 0', fontWeight: 600, fontSize: 14, textDecoration: 'none'
-                      }}>
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        Send Email
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.18 19.79 19.79 0 01.22 4a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                        {designer.phone}
                       </a>
                     )}
                     {designer.instagram && (
                       <a href={`https://instagram.com/${designer.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer"
-                        style={{ fontSize: 13, color: '#7593b4', textAlign: 'center', display: 'block', textDecoration: 'none' }}>
-                        Instagram: {designer.instagram}
+                        style={{ fontSize: 12, color: '#7593b4', textAlign: 'center', display: 'block', textDecoration: 'none' }}>
+                        {designer.instagram}
                       </a>
                     )}
                     {designer.portfolio && (
                       <a href={designer.portfolio} target="_blank" rel="noopener noreferrer"
-                        style={{ fontSize: 13, color: '#7593b4', textAlign: 'center', display: 'block', textDecoration: 'none' }}>
+                        style={{ fontSize: 12, color: '#7593b4', textAlign: 'center', display: 'block', textDecoration: 'none' }}>
                         View Portfolio ↗
                       </a>
                     )}
                   </div>
+
+                  {/* Login nudge for guests */}
+                  {!uid && (
+                    <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 14, lineHeight: 1.5 }}>
+                      <Link href="/dashboard/login" style={{ color: '#7593b4', fontWeight: 600 }}>Log in</Link> to save this designer or send an enquiry.
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
 
             {/* ── Right: details ── */}
             <div className="col-lg-8">
-              {/* About */}
               <div style={{ background: '#fff', borderRadius: 20, padding: '28px 32px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', marginBottom: 24 }}>
                 <h3 style={{ fontSize: 16, fontWeight: 700, color: '#1e293b', marginBottom: 20, paddingBottom: 12, borderBottom: '1px solid #f1f5f9' }}>About</h3>
-
-                <div className="info-row">
-                  <span className="info-label">Experience</span>
-                  <span className="info-value">{designer.experience || '—'}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Designer Type</span>
-                  <span className="info-value">{roleLabel}</span>
-                </div>
-                <div className="info-row">
-                  <span className="info-label">Budget Range</span>
-                  <span className="info-value">{designer.budgetRange || '—'}</span>
-                </div>
+                <div className="info-row"><span className="info-label">Experience</span><span className="info-value">{designer.experience || '—'}</span></div>
+                <div className="info-row"><span className="info-label">Designer Type</span><span className="info-value">{roleLabel}</span></div>
+                <div className="info-row"><span className="info-label">Budget Range</span><span className="info-value">{designer.budgetRange || '—'}</span></div>
                 {designer.notes && (
-                  <div className="info-row">
-                    <span className="info-label">About</span>
-                    <span className="info-value" style={{ lineHeight: 1.6 }}>{designer.notes}</span>
-                  </div>
+                  <div className="info-row"><span className="info-label">About</span><span className="info-value" style={{ lineHeight: 1.6 }}>{designer.notes}</span></div>
                 )}
               </div>
 
-              {/* Services */}
               {Array.isArray(designer.services) && designer.services.length > 0 && (
                 <div style={{ background: '#fff', borderRadius: 20, padding: '24px 32px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', marginBottom: 24 }}>
                   <h3 style={{ fontSize: 16, fontWeight: 700, color: '#1e293b', marginBottom: 16 }}>Services Offered</h3>
@@ -210,15 +387,13 @@ const DesignerDetailPage = () => {
                 </div>
               )}
 
-              {/* Styles */}
               {Array.isArray(designer.styles) && designer.styles.length > 0 && (
                 <div style={{ background: '#fff', borderRadius: 20, padding: '24px 32px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', marginBottom: 24 }}>
                   <h3 style={{ fontSize: 16, fontWeight: 700, color: '#1e293b', marginBottom: 16 }}>Design Styles</h3>
-                  <div>{designer.styles.map(s => <span key={s} className={`tag-chip style-chip`}>{s}</span>)}</div>
+                  <div>{designer.styles.map(s => <span key={s} className="tag-chip style-chip">{s}</span>)}</div>
                 </div>
               )}
 
-              {/* Portfolio images */}
               {Array.isArray(designer.imageUrls) && designer.imageUrls.length > 0 && (
                 <div style={{ background: '#fff', borderRadius: 20, padding: '24px 32px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', marginBottom: 24 }}>
                   <h3 style={{ fontSize: 16, fontWeight: 700, color: '#1e293b', marginBottom: 16 }}>
@@ -234,7 +409,6 @@ const DesignerDetailPage = () => {
                 </div>
               )}
 
-              {/* Projects */}
               {projects.length > 0 && (
                 <div style={{ background: '#fff', borderRadius: 20, padding: '24px 32px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', marginBottom: 24 }}>
                   <h3 style={{ fontSize: 16, fontWeight: 700, color: '#1e293b', marginBottom: 20 }}>Projects by this Designer</h3>
@@ -264,16 +438,9 @@ const DesignerDetailPage = () => {
 
       {/* Lightbox */}
       {lightbox && (
-        <div onClick={() => setLightbox(null)} style={{
-          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'zoom-out', padding: 20
-        }}>
+        <div onClick={() => setLightbox(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'zoom-out', padding: 20 }}>
           <img src={lightbox} alt="" style={{ maxWidth: '92vw', maxHeight: '90vh', borderRadius: 12, boxShadow: '0 8px 40px rgba(0,0,0,0.5)' }} />
-          <button onClick={() => setLightbox(null)} style={{
-            position: 'fixed', top: 20, right: 24, background: 'rgba(255,255,255,0.15)',
-            border: 'none', color: '#fff', fontSize: 28, width: 44, height: 44,
-            borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
-          }}>×</button>
+          <button onClick={() => setLightbox(null)} style={{ position: 'fixed', top: 20, right: 24, background: 'rgba(255,255,255,0.15)', border: 'none', color: '#fff', fontSize: 28, width: 44, height: 44, borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
         </div>
       )}
 
