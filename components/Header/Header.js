@@ -83,12 +83,12 @@ const Header = (props) => {
                     {/* <Image src="/images/home.png"  width={200} height={200} 
                                         className="w-5 h-5 object-fit" alt="logo" /> */}
                     <Image
-                      src="/images/logo.svg"
+                      src="/images/logo-interinest.png"
                       width={180}
-                      height={60}
+                      height={56}
                       className="object-contain"
                       style={{ mixBlendMode: "multiply" }}
-                      alt="logo"
+                      alt="Interinest"
                     />
                   </Link>
                 </div>

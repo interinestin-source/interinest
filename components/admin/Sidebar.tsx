@@ -154,7 +154,7 @@ const navigation: SidebarItem[] = [
                   <Image
                     width={200}
                     height={64}
-                    src="/images/logo.svg"
+                    src="/images/logo-interinest.png"
                     alt="Interinest"
                     className="w-64 h-16 object-contain"
                     style={{ mixBlendMode: "multiply" }}

@@ -119,13 +119,16 @@ export default function LoginPage() {
 
         <header className="relative z-10 flex items-center gap-2 px-10 pt-9">
           <Link href="/">
-            <Image
-              width={192}
-              height={64}
-              src="/images/logo-2.svg"
-              alt="Interinest"
-              className="w-48 h-16 object-contain"
-            />
+            <div style={{ background: "rgba(255,255,255,0.92)", borderRadius: 12, padding: "6px 16px" }}>
+              <Image
+                width={160}
+                height={50}
+                src="/images/logo-interinest.png"
+                alt="Interinest"
+                className="object-contain"
+                style={{ mixBlendMode: "multiply" }}
+              />
+            </div>
           </Link>
         </header>
 
