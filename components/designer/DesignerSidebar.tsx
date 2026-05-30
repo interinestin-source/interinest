@@ -20,12 +20,12 @@ interface DesignerSidebarProps {
 }
 
 const navigation = [
-  { name: "Overview",      path: "/dashboard/designer-dashboard",            icon: Home,         exact: true },
-  { name: "Projects",      path: "/dashboard/designer-dashboard/projects",   icon: FolderOpen },
-  { name: "Add Project",   path: "/dashboard/designer-dashboard/projects/add", icon: FolderPlus },
-  { name: "Enquiries",     path: "/dashboard/designer-dashboard/inquiries",  icon: MessageSquare },
-  { name: "My Portfolio",  path: "/dashboard/designer-dashboard/portfolio",  icon: LayoutGrid },
-  { name: "Edit Profile",  path: "/dashboard/designer-dashboard/profile",    icon: User },
+  { name: "Overview",      path: "/dashboard/designer-dashboard",              icon: Home,         exact: true },
+  { name: "Projects",      path: "/dashboard/designer-dashboard/projects",     icon: FolderOpen,   exact: true },
+  { name: "Add Project",   path: "/dashboard/designer-dashboard/projects/add", icon: FolderPlus,   exact: true },
+  { name: "Enquiries",     path: "/dashboard/designer-dashboard/inquiries",    icon: MessageSquare, exact: false },
+  { name: "My Portfolio",  path: "/dashboard/designer-dashboard/portfolio",    icon: LayoutGrid,   exact: false },
+  { name: "Edit Profile",  path: "/dashboard/designer-dashboard/profile",      icon: User,         exact: false },
 ];
 
 const DesignerSidebar: React.FC<DesignerSidebarProps> = ({ isOpen, onToggle }) => {
@@ -60,8 +60,11 @@ const DesignerSidebar: React.FC<DesignerSidebarProps> = ({ isOpen, onToggle }) =
     router.push("/");
   };
 
-  const isActive = (path: string, exact?: boolean) =>
-    exact ? pathname === path : pathname?.startsWith(path);
+  const isActive = (path: string, exact?: boolean) => {
+    if (!pathname) return false;
+    if (exact) return pathname === path;
+    return pathname.startsWith(path);
+  };
 
   const initial = designer?.fullName?.charAt(0)?.toUpperCase() || "D";
 
@@ -123,10 +126,13 @@ const DesignerSidebar: React.FC<DesignerSidebarProps> = ({ isOpen, onToggle }) =
                   key={item.path}
                   href={item.path}
                   onClick={() => { if (window.innerWidth < 1024) onToggle(); }}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all outline-none focus:outline-none focus:ring-0"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all"
                   style={{
                     background: active ? ACCENT_BG : "transparent",
                     color: active ? ACCENT : "#4b5563",
+                    outline: "none",
+                    boxShadow: "none",
+                    border: "none",
                   }}
                 >
                   <Icon className="w-4 h-4" strokeWidth={active ? 2.5 : 2} />
