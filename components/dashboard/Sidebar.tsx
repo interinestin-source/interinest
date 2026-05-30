@@ -143,13 +143,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
                 className="flex items-center space-x-2"
               >
                 <Link href="/">
-                  <Image
-                    width={200}
-                    height={64}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src="/images/logo-interinest.png"
                     alt="Interinest"
-                    className="w-48 h-16 object-contain"
-                    style={{ mixBlendMode: "multiply" }}
+                    style={{ height: 46, width: "auto", display: "block",
+                      filter: "contrast(1.3) brightness(1.1)",
+                      mixBlendMode: "multiply" }}
                   />
                 </Link>
               </motion.div>

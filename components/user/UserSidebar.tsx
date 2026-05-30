@@ -78,13 +78,13 @@ const UserSidebar: React.FC<UserSidebarProps> = ({ isOpen, onToggle }) => {
           <div className="flex items-center justify-between p-5 border-b border-gray-100">
             <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}>
               <Link href="/">
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src="/images/logo-interinest.png"
                   alt="Interinest"
-                  width={160}
-                  height={52}
-                  className="object-contain"
-                  style={{ height: 52, width: "auto", mixBlendMode: "multiply" }}
+                  style={{ height: 46, width: "auto", display: "block",
+                    filter: "contrast(1.3) brightness(1.1)",
+                    mixBlendMode: "multiply" }}
                 />
               </Link>
             </motion.div>

@@ -82,13 +82,13 @@ const Header = (props) => {
                     {/* <Image src={props.Logo} alt="logo" /> */}
                     {/* <Image src="/images/home.png"  width={200} height={200} 
                                         className="w-5 h-5 object-fit" alt="logo" /> */}
-                    <Image
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                       src="/images/logo-interinest.png"
-                      width={180}
-                      height={56}
-                      className="object-contain"
-                      style={{ mixBlendMode: "multiply" }}
                       alt="Interinest"
+                      style={{ height: 52, width: "auto", display: "block",
+                        filter: "contrast(1.3) brightness(1.1)",
+                        mixBlendMode: "multiply" }}
                     />
                   </Link>
                 </div>
