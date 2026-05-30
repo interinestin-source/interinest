@@ -1,17 +1,15 @@
-import SidebarClientWrapper from "@/components/dashboard/SidebarClientWrapper";
-import { Metadata } from "next";
+import DesignerSidebarClientWrapper from "@/components/designer/DesignerSidebarClientWrapper";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Interinest Designer Dashboard",
-  description: "Interinest - Nested Freelance Marketplace for Designers",
+  title: "Interinest — Designer Dashboard",
+  description: "Manage your projects, enquiries and portfolio on Interinest.",
 };
 
-export default function DesignerDashboardLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function DesignerDashboardLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <SidebarClientWrapper>
-      <div className="min-h-screen">{children}</div>
-    </SidebarClientWrapper>
+    <DesignerSidebarClientWrapper>
+      <div className="min-h-screen bg-slate-50">{children}</div>
+    </DesignerSidebarClientWrapper>
   );
 }

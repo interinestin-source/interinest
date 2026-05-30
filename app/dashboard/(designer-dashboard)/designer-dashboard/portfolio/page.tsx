@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Header } from "@/components/dashboard/Header";
+import { DesignerHeader as Header } from "@/components/designer/DesignerHeader";
 import ProjectList from "@/components/Projects/projects/ProjectList";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

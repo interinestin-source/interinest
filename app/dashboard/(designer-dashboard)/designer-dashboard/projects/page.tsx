@@ -1,5 +1,5 @@
 import React from "react";
-import { Header } from "@/components/dashboard/Header";
+import { DesignerHeader as Header } from "@/components/designer/DesignerHeader";
 import ProjectList from "@/components/Projects/projects/ProjectList";
 
 export default function ProjectsListPage() {

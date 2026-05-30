@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Header } from "@/components/dashboard/Header";
+import { DesignerHeader } from "@/components/designer/DesignerHeader";
 import Stats, { StatItem } from "@/components/dashboard/Stats";
 import Link from "next/link";
 import { doc, getDoc, collection, getDocs, query, where } from "firebase/firestore";
@@ -188,7 +188,7 @@ export default function DesignerDashboard() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Header pageTitle="Designer Dashboard" breadcrumbs={breadcrumbs} />
+      <DesignerHeader pageTitle="Designer Dashboard" breadcrumbs={breadcrumbs} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 

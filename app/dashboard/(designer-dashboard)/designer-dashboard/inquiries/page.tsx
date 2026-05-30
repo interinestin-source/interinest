@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { db } from "@/firebase";
 import { collection, getDocs, doc, updateDoc, query, where, orderBy } from "firebase/firestore";
-import { Header } from "@/components/dashboard/Header";
+import { DesignerHeader as Header } from "@/components/designer/DesignerHeader";
 import { toast } from "sonner";
 
 const ACCENT = "#CAAB06";

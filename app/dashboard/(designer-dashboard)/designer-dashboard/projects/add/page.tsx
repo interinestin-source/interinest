@@ -1,4 +1,4 @@
-import { Header } from "@/components/dashboard/Header";
+import { DesignerHeader as Header } from "@/components/designer/DesignerHeader";
 import AddProject from "@/components/Projects/projects/AddProject";
 import React from "react";
 

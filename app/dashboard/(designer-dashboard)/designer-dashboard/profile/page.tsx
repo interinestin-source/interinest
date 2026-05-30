@@ -1,6 +1,6 @@
 import React from "react";
 import DesignerProfile from "@/components/profile/DesignerProfile";
-import { Header } from "@/components/dashboard/Header";
+import { DesignerHeader as Header } from "@/components/designer/DesignerHeader";
 
 export default function DesignerProfilePage() {
   const breadcrumbs = [

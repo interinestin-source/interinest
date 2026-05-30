@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { useParams } from "next/navigation";
-import { Header } from "@/components/dashboard/Header";
+import { DesignerHeader as Header } from "@/components/designer/DesignerHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
