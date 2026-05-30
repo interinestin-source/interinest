@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { db } from "@/firebase";
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import Link from "next/link";
+import { UserHeader } from "@/components/user/UserHeader";
 
 const ACCENT = "#7593b4";
 
@@ -42,12 +43,15 @@ export default function InquiriesPage() {
       .finally(() => setLoading(false));
   }, []);
 
+  const breadcrumbs = [
+    { label: "Home", href: "/dashboard/user-dashboard" },
+    { label: "My Enquiries" },
+  ];
+
   return (
+    <>
+      <UserHeader pageTitle="My Enquiries" breadcrumbs={breadcrumbs} />
     <div className="px-6 py-8 max-w-5xl">
-      <div className="mb-6">
-        <h1 className="text-xl font-bold text-slate-800">My Enquiries</h1>
-        <p className="text-sm text-slate-500 mt-1">Track the enquiries you&apos;ve sent to designers.</p>
-      </div>
 
       {loading ? (
         <div className="flex items-center justify-center py-20 text-slate-400 text-sm">Loading…</div>
@@ -150,5 +154,6 @@ export default function InquiriesPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

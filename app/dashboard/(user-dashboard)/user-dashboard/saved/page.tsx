@@ -7,6 +7,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import { UserHeader } from "@/components/user/UserHeader";
 
 const ACCENT = "#7593b4";
 
@@ -20,6 +21,11 @@ function SavedContent() {
   const searchParams = useSearchParams();
   const defaultTab = searchParams.get("tab") === "projects" ? "projects" : "designers";
   const [tab, setTab] = useState<"designers" | "projects">(defaultTab as any);
+
+  const breadcrumbs = [
+    { label: "Home", href: "/dashboard/user-dashboard" },
+    { label: "Saved" },
+  ];
   const [uid, setUid] = useState<string | null>(null);
   const [designers, setDesigners] = useState<any[]>([]);
   const [projects, setProjects] = useState<any[]>([]);
@@ -59,11 +65,9 @@ function SavedContent() {
   };
 
   return (
+    <>
+      <UserHeader pageTitle="Saved" breadcrumbs={breadcrumbs} />
     <div className="px-6 py-8 max-w-5xl">
-      <div className="mb-6">
-        <h1 className="text-xl font-bold text-slate-800">Saved</h1>
-        <p className="text-sm text-slate-500 mt-1">Designers and projects you&apos;ve bookmarked.</p>
-      </div>
 
       {/* Tabs */}
       <div className="flex gap-1 bg-slate-100 p-1 rounded-xl w-fit mb-6">
@@ -154,6 +158,7 @@ function SavedContent() {
         )
       )}
     </div>
+    </>
   );
 }
 
