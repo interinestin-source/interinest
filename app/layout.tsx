@@ -11,6 +11,14 @@ const Muli = Mulish({
 export const metadata: Metadata = {
   title: "Interior Designers in India for Home & Office | Interinest",
   description: "Find affordable interior designers in India for homes, cafes, offices, and commercial spaces. Compare portfolios and hire the right designer for your project.",
+  icons: {
+    icon: [
+      { url: "/images/favicon.png", type: "image/png" },
+      { url: "/favicon.ico", type: "image/x-icon" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/images/favicon.png",
+  },
 };
 
 export default function RootLayout({
