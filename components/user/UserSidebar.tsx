@@ -121,7 +121,7 @@ const UserSidebar: React.FC<UserSidebarProps> = ({ isOpen, onToggle }) => {
                   key={item.path}
                   href={item.path}
                   onClick={() => { if (window.innerWidth < 1024) onToggle(); }}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all outline-none focus:outline-none focus:ring-0"
                   style={{
                     background: active ? `${ACCENT}18` : "transparent",
                     color: active ? ACCENT : "#4b5563",
