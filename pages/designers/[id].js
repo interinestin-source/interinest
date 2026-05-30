@@ -11,6 +11,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { toast } from 'sonner';
+import AuthEnquiryModal from '../../components/AuthEnquiryModal';
 
 function getCookie(name) {
   if (typeof document === 'undefined') return null;
@@ -35,7 +36,11 @@ const DesignerDetailPage = () => {
   const [saveDocId, setSaveDocId] = useState(null);
   const [saving, setSaving] = useState(false);
 
-  // Inquiry form
+  // Auth+Enquiry modal (for guests)
+  const [showModal, setShowModal] = useState(false);
+  const [modalTrigger, setModalTrigger] = useState(null); // 'save' | 'enquiry'
+
+  // Inline enquiry form (for already-logged-in users)
   const [showInquiry, setShowInquiry] = useState(false);
   const [inquiry, setInquiry] = useState({ subject: '', budget: '', message: '' });
   const [sendingInquiry, setSendingInquiry] = useState(false);
@@ -83,9 +88,18 @@ const DesignerDetailPage = () => {
     checkSaved().catch(console.error);
   }, [uid, id]);
 
+  // Called when modal completes (guest account was created)
+  const handleModalSuccess = ({ uid: newUid }) => {
+    setUid(newUid);
+    setSaved(true); // designer is auto-saved by modal
+    toast.success('Account created and enquiry sent!');
+  };
+
   const handleSave = async () => {
     if (!uid) {
-      router.push('/dashboard/login');
+      // Open modal — will create account + save designer
+      setModalTrigger('save');
+      setShowModal(true);
       return;
     }
     setSaving(true);
@@ -266,8 +280,12 @@ const DesignerDetailPage = () => {
                     </button>
                     <button
                       onClick={() => {
-                        if (!uid) { router.push('/dashboard/login'); return; }
-                        setShowInquiry(v => !v);
+                        if (!uid) {
+                          setModalTrigger('enquiry');
+                          setShowModal(true);
+                        } else {
+                          setShowInquiry(v => !v);
+                        }
                       }}
                       style={{
                         flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
@@ -358,10 +376,9 @@ const DesignerDetailPage = () => {
                     )}
                   </div>
 
-                  {/* Login nudge for guests */}
                   {!uid && (
-                    <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 14, lineHeight: 1.5 }}>
-                      <Link href="/dashboard/login" style={{ color: '#7593b4', fontWeight: 600 }}>Log in</Link> to save this designer or send an enquiry.
+                    <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 12, lineHeight: 1.5, textAlign: 'center' }}>
+                      No account needed — just click Enquire or Save to get started.
                     </p>
                   )}
                 </div>
@@ -446,6 +463,21 @@ const DesignerDetailPage = () => {
 
       <Footer ftClass="wpo-site-footer-s2" />
       <Scrollbar />
+
+      {/* Auth + Enquiry modal for guests */}
+      {showModal && designer && (
+        <AuthEnquiryModal
+          context={{
+            type: 'designer',
+            id,
+            name: designer.fullName || 'Designer',
+            photoURL: designer.photoURL || designer.imageUrls?.[0] || null,
+            city: designer.city || '',
+          }}
+          onSuccess={handleModalSuccess}
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </Fragment>
   );
 };

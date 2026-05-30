@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { doc, getDoc, collection, getDocs, addDoc, deleteDoc, query, where, limit, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { toast } from 'sonner';
+import AuthEnquiryModal from '../../components/AuthEnquiryModal';
 
 function getCookie(name) {
   if (typeof document === 'undefined') return null;
@@ -28,6 +29,7 @@ const ProjectDetailPage = () => {
   const [saved, setSaved] = useState(false);
   const [saveDocId, setSaveDocId] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const cookieUid = getCookie('uid');
@@ -45,8 +47,17 @@ const ProjectDetailPage = () => {
     checkSaved().catch(console.error);
   }, [uid, id]);
 
+  const handleModalSuccess = ({ uid: newUid }) => {
+    setUid(newUid);
+    setSaved(true);
+    toast.success('Account created and interest saved!');
+  };
+
   const handleSave = async () => {
-    if (!uid) { router.push('/dashboard/login'); return; }
+    if (!uid) {
+      setShowModal(true);
+      return;
+    }
     setSaving(true);
     try {
       if (saved) {
@@ -341,7 +352,7 @@ const ProjectDetailPage = () => {
 
               {!uid && (
                 <p style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center', marginBottom: 14, lineHeight: 1.5 }}>
-                  <Link href="/dashboard/login" style={{ color: '#7593b4', fontWeight: 600 }}>Log in</Link> to save this project.
+                  No account needed — click Save to get started.
                 </p>
               )}
 
@@ -372,6 +383,24 @@ const ProjectDetailPage = () => {
 
       <Footer ftClass="wpo-site-footer-s2" />
       <Scrollbar />
+
+      {/* Auth + Interest modal for guests */}
+      {showModal && project && (
+        <AuthEnquiryModal
+          context={{
+            type: 'project',
+            id,
+            name: project.title || 'Project',
+            photoURL: images[0] || null,
+            category: project.category || '',
+            location: project.location || '',
+            designerId: project.uid || '',
+            designerName: designer?.fullName || '',
+          }}
+          onSuccess={handleModalSuccess}
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </Fragment>
   );
 };
