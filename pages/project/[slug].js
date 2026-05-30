@@ -7,7 +7,7 @@ import Projects from '../../api/project';
 import Footer from '../../components/footer/Footer';
 import RelatedProject from './related';
 import Discuss from './discuss';
-import Logo from '@/public/images/logo.svg'
+import Logo from '@/public/images/logo-interinest.png'
 import Image from 'next/image'
 
 

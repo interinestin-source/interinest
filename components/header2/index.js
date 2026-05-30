@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import Logo from '@/public/images/logo-2.svg'
+import Logo from '@/public/images/logo-interinest.png'
 import Link from "next/link";
 import Image from 'next/image'
 import MobileMenu from '../../components/MobileMenu/MobileMenu'
@@ -114,7 +114,11 @@ const Header2 = (props) => {
                                             </div>
                                             <div className={`header-right-menu-wrap ${menuActive ? "right-menu-active" : ""}`}>
                                                 <button onClick={() => setMenuState(!menuActive)} className="right-menu-close"><i className="ti-close"></i></button>
-                                                <div className="logo"><Image src={Logo} alt="" /></div>
+                                                <div className="logo">
+                                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                                  <img src="/images/logo-interinest.png" alt="Interinest"
+                                    style={{ height: 44, width: "auto", filter: "contrast(1.3) brightness(1.1)", mixBlendMode: "multiply" }} />
+                                </div>
                                                 <div className="header-right-sec">
                                                     <div className="project-widget widget">
                                                         <h3>Our Latest Projects</h3>

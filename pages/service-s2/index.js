@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import ServiceSection2 from '../../components/Services2';
 import Footer from '../../components/footer/Footer';
 import Scrollbar from '../../components/scrollbar/scrollbar';
-import Logo from '@/public/images/logo.svg'
+import Logo from '@/public/images/logo-interinest.png'
 
 const ServicePage2 = (props) => {
 

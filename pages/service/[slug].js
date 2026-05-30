@@ -8,7 +8,7 @@ import Footer from '../../components/footer/Footer';
 import Scrollbar from '../../components/scrollbar/scrollbar';
 import RelatedService from './single/related';
 import Discuss from './single/discuss';
-import Logo from '@/public/images/logo.svg'
+import Logo from '@/public/images/logo-interinest.png'
 import Image from 'next/image'
 
 import pImg1 from '@/public/images/service-single/2.jpg'

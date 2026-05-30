@@ -6,7 +6,7 @@ import ServiceSection2 from '../../components/Services2';
 import FunFact from '../../components/FunFact/FunFact';
 import Scrollbar from '../../components/scrollbar/scrollbar';
 import Pricing from '../../components/Pricing';
-import Logo from '@/public/images/logo.svg'
+import Logo from '@/public/images/logo-interinest.png'
 import About3 from '../../components/about3';
 import BlogSection from '../../components/BlogSection/BlogSection';
 import Footer from '../../components/footer/Footer';

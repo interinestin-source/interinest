@@ -4,7 +4,7 @@ import PageTitle from '../../components/pagetitle/PageTitle'
 import ProjectsS2 from '../../components/ProjectsS2'
 import Scrollbar from '../../components/scrollbar/scrollbar'
 import Footer from '../../components/footer/Footer';
-import Logo from '@/public/images/logo.svg'
+import Logo from '@/public/images/logo-interinest.png'
 
 const ProjectPage =() => {
     return(
