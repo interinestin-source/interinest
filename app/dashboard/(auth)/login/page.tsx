@@ -122,7 +122,7 @@ export default function LoginPage() {
             <Image
               width={192}
               height={64}
-              src="/images/logo-interinest-bg.png"
+              src="/images/logo-2.svg"
               alt="Interinest"
               className="w-48 h-16 object-contain"
             />

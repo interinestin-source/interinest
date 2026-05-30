@@ -19,9 +19,8 @@ const Footer = (props) => {
                             <div className="widget about-widget">
                                 <div className="logo widget-title">
                                     <Link onClick={ClickHandler} className="logo" href="/">
-                                    {/* <img src='/images/logo-2.svg' alt="" /> */}
-                                        <Image src="/images/logo-interinest.png"  width={100} height={100} 
-                                        className="" alt="logo" />
+                                        <Image src="/images/logo-2.svg" width={160} height={54}
+                                        className="object-contain" alt="Interinest" />
                                     </Link>
                                 </div>
                                 <p>Interinest is a curated marketplace for discovering and hiring independent interior designers in India. We empower design professionals and help clients bring their spaces to life.</p>

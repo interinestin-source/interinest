@@ -146,9 +146,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
                   <Image
                     width={200}
                     height={64}
-                    src="/logo-bg.png"
+                    src="/images/logo.svg"
                     alt="Interinest"
                     className="w-48 h-16 object-contain"
+                    style={{ mixBlendMode: "multiply" }}
                   />
                 </Link>
               </motion.div>

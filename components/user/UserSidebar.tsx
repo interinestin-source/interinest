@@ -79,12 +79,12 @@ const UserSidebar: React.FC<UserSidebarProps> = ({ isOpen, onToggle }) => {
             <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}>
               <Link href="/">
                 <Image
-                  src="/logo-bg.png"
+                  src="/images/logo.svg"
                   alt="Interinest"
                   width={160}
                   height={52}
                   className="object-contain"
-                  style={{ height: 52, width: "auto" }}
+                  style={{ height: 52, width: "auto", mixBlendMode: "multiply" }}
                 />
               </Link>
             </motion.div>
