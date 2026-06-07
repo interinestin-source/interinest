@@ -14,11 +14,10 @@ import Image from 'next/image'
 import pImg1 from '@/public/images/service-single/2.jpg'
 import pImg2 from '@/public/images/service-single/3.jpg'
 
+const ACCENT = "#7593b4";
 
-
-const SeviceSinglePage = (props) => {
+const ServiceSinglePage = (props) => {
     const router = useRouter()
-
     const serviceDetails = Services.find(item => item.slug === router.query.slug)
 
     return (
@@ -30,60 +29,133 @@ const SeviceSinglePage = (props) => {
                     <div className="row">
                         <div className="col-lg-8 col-12">
                             <div className="wpo-service-single-wrap">
+
+                                {/* ── Main hero image ── */}
                                 <div className="wpo-service-single-item">
                                     <div className="wpo-service-single-main-img">
-                                        <Image src={serviceDetails?.sImg} alt="service" />
+                                        <Image src={serviceDetails?.sImg} alt={serviceDetails?.sTitle || 'service'} />
                                     </div>
-                                    <div className="wpo-service-single-title">
+
+                                    {/* ── Intro text ── */}
+                                    <div className="wpo-service-single-title mt-4">
                                         <h3>{serviceDetails?.sTitle}</h3>
                                     </div>
                                     <p>{serviceDetails?.description}</p>
-                                    <p>{serviceDetails?.des2}</p>
-                                    <div className="row mt-4">
-                                        <div className="col-md-6 col-sm-6 col-12">
-                                            <div className="wpo-p-details-img">
-                                                <Image src={pImg1} alt="" />
+                                    {serviceDetails?.des2 && <p>{serviceDetails.des2}</p>}
+
+                                    {/* ── Two supporting images (only when no subsections) ── */}
+                                    {!serviceDetails?.subsections && (
+                                        <div className="row mt-4">
+                                            <div className="col-md-6 col-sm-6 col-12">
+                                                <div className="wpo-p-details-img">
+                                                    <Image src={pImg1} alt="" />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6 col-sm-6 col-12">
+                                                <div className="wpo-p-details-img">
+                                                    <Image src={pImg2} alt="" />
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-6 col-sm-6 col-12">
-                                            <div className="wpo-p-details-img">
-                                                <Image src={pImg2} alt="" />
-                                            </div>
+                                    )}
+                                </div>
+
+                                {/* ── Sub-solutions grid (rich content) ── */}
+                                {serviceDetails?.subsections && (
+                                    <div className="wpo-service-single-item">
+                                        <div className="wpo-service-single-title">
+                                            <h3>Our {serviceDetails.sTitle} Solutions</h3>
+                                        </div>
+                                        <div className="row mt-3">
+                                            {serviceDetails.subsections.map((sub, i) => (
+                                                <div className="col-md-6 col-12 mb-4" key={i}>
+                                                    <div style={{
+                                                        background: '#f8fafc',
+                                                        borderRadius: 14,
+                                                        padding: '20px 22px',
+                                                        borderLeft: `3px solid ${ACCENT}`,
+                                                        height: '100%',
+                                                    }}>
+                                                        <h5 style={{ fontSize: 15, fontWeight: 700, color: '#1e293b', marginBottom: 8 }}>
+                                                            {sub.title}
+                                                        </h5>
+                                                        <p style={{ fontSize: 13.5, color: '#64748b', lineHeight: 1.7, margin: 0 }}>
+                                                            {sub.desc}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
-                                </div>
-                                <div className="wpo-service-single-item list-widget">
-                                    <div className="wpo-service-single-title">
-                                        <h3>Our Capabilities</h3>
+                                )}
+
+                                {/* ── How It Works (rich content) ── */}
+                                {serviceDetails?.howItWorks && (
+                                    <div className="wpo-service-single-item">
+                                        <div className="wpo-service-single-title">
+                                            <h3>How It Works</h3>
+                                        </div>
+                                        <div className="row mt-3">
+                                            {serviceDetails.howItWorks.map((step, i) => (
+                                                <div className="col-md-6 col-12 mb-4" key={i}>
+                                                    <div style={{
+                                                        display: 'flex',
+                                                        gap: 16,
+                                                        alignItems: 'flex-start',
+                                                        background: '#fff',
+                                                        border: '1px solid #e2e8f0',
+                                                        borderRadius: 14,
+                                                        padding: '18px 20px',
+                                                        height: '100%',
+                                                    }}>
+                                                        <div style={{
+                                                            width: 44,
+                                                            height: 44,
+                                                            borderRadius: 12,
+                                                            background: ACCENT,
+                                                            color: '#fff',
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
+                                                            fontWeight: 800,
+                                                            fontSize: 14,
+                                                            flexShrink: 0,
+                                                        }}>
+                                                            {step.step}
+                                                        </div>
+                                                        <div>
+                                                            <h5 style={{ fontSize: 14, fontWeight: 700, color: '#1e293b', marginBottom: 6 }}>
+                                                                {step.title}
+                                                            </h5>
+                                                            <p style={{ fontSize: 13, color: '#64748b', lineHeight: 1.65, margin: 0 }}>
+                                                                {step.desc}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
-                                    <p>Massa volutpat odio facilisis purus sit elementum. Non, sed velit dictum quam. Id
-                                        risus pharetra est, at rhoncus, nec ullamcorper tincidunt. Id aliquet duis
-                                        sollicitudin diam.</p>
-                                    <ul>
-                                        <li>Non saed velit dictum quam risus pharetra esta.</li>
-                                        <li>Id risus pharetra est, at rhoncus, nec ullamcorper tincidunt.</li>
-                                        <li>Hac nibh fermentum nisi, platea condimentum cursus.</li>
-                                        <li>Massa volutpat odio facilisis purus sit elementum.</li>
-                                        <li>Elit curabitur amet risus bibendum.</li>
-                                    </ul>
-                                </div>
-                                <div className="wpo-service-single-item">
-                                    <div className="wpo-service-single-title">
-                                        <h3>Our Approach</h3>
-                                    </div>
-                                    <p>{serviceDetails?.des3}</p>
-                                </div>
-                                <div className="wpo-service-single-item list-widget">
-                                    <div className="wpo-service-single-title">
-                                        <h3>Our Work Process</h3>
-                                    </div>
-                                    <ul>
-                                        <li>Non saed velit dictum quam risus pharetra esta.</li>
-                                        <li>Id risus pharetra est, at rhoncus, nec ullamcorper tincidunt.</li>
-                                        <li>Hac nibh fermentum nisi, platea condimentum cursus.</li>
-                                        <li>Massa volutpat odio facilisis purus sit elementum.</li>
-                                    </ul>
-                                </div>
+                                )}
+
+                                {/* ── Fallback: Capabilities (only for services without rich content) ── */}
+                                {!serviceDetails?.subsections && (
+                                    <>
+                                        <div className="wpo-service-single-item list-widget">
+                                            <div className="wpo-service-single-title">
+                                                <h3>Our Capabilities</h3>
+                                            </div>
+                                            <p>{serviceDetails?.des3}</p>
+                                        </div>
+                                        <div className="wpo-service-single-item">
+                                            <div className="wpo-service-single-title">
+                                                <h3>Our Approach</h3>
+                                            </div>
+                                            <p>We begin with a deep understanding of your space, lifestyle, and vision. Every design decision is guided by your requirements, resulting in spaces that are both beautiful and highly functional.</p>
+                                        </div>
+                                    </>
+                                )}
+
                                 <RelatedService />
                                 <Discuss />
                             </div>
@@ -97,4 +169,5 @@ const SeviceSinglePage = (props) => {
         </Fragment>
     )
 };
-export default SeviceSinglePage;
+
+export default ServiceSinglePage;
