@@ -43,8 +43,8 @@ const ServiceSinglePage = (props) => {
                                     <p>{serviceDetails?.description}</p>
                                     {serviceDetails?.des2 && <p>{serviceDetails.des2}</p>}
 
-                                    {/* ── Two supporting images (only when no subsections) ── */}
-                                    {!serviceDetails?.subsections && (
+                                    {/* ── Two supporting images (only when no rich content) ── */}
+                                    {!serviceDetails?.subsections && !serviceDetails?.styles && (
                                         <div className="row mt-4">
                                             <div className="col-md-6 col-sm-6 col-12">
                                                 <div className="wpo-p-details-img">
@@ -138,8 +138,58 @@ const ServiceSinglePage = (props) => {
                                     </div>
                                 )}
 
+                                {/* ── Style cards (style-based service) ── */}
+                                {serviceDetails?.styles && (
+                                    <div className="wpo-service-single-item">
+                                        <div className="wpo-service-single-title">
+                                            <h3>{serviceDetails.stylesTitle || 'Explore Interior Designers by Style'}</h3>
+                                        </div>
+                                        <div className="row mt-3">
+                                            {serviceDetails.styles.map((style, i) => (
+                                                <div className="col-md-6 col-12 mb-4" key={i}>
+                                                    <div style={{
+                                                        background: '#f8fafc',
+                                                        borderRadius: 14,
+                                                        padding: '20px 22px',
+                                                        borderLeft: `3px solid ${ACCENT}`,
+                                                        height: '100%',
+                                                    }}>
+                                                        <h5 style={{ fontSize: 15, fontWeight: 700, color: '#1e293b', marginBottom: 8 }}>
+                                                            {style.name}
+                                                        </h5>
+                                                        <p style={{ fontSize: 13.5, color: '#64748b', lineHeight: 1.7, marginBottom: 10 }}>
+                                                            {style.desc}
+                                                        </p>
+                                                        {style.idealFor && (
+                                                            <div>
+                                                                <p style={{ fontSize: 11.5, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>
+                                                                    Ideal for
+                                                                </p>
+                                                                <ul style={{ margin: 0, paddingLeft: 0, listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                                                                    {style.idealFor.map((tag, j) => (
+                                                                        <li key={j} style={{
+                                                                            fontSize: 12,
+                                                                            background: `${ACCENT}15`,
+                                                                            color: ACCENT,
+                                                                            borderRadius: 20,
+                                                                            padding: '3px 10px',
+                                                                            fontWeight: 600,
+                                                                        }}>
+                                                                            {tag}
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
                                 {/* ── Fallback: Capabilities (only for services without rich content) ── */}
-                                {!serviceDetails?.subsections && (
+                                {!serviceDetails?.subsections && !serviceDetails?.styles && (
                                     <>
                                         <div className="wpo-service-single-item list-widget">
                                             <div className="wpo-service-single-title">
