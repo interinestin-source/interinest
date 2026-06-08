@@ -44,7 +44,7 @@ const ServiceSinglePage = (props) => {
                                     {serviceDetails?.des2 && <p>{serviceDetails.des2}</p>}
 
                                     {/* ── Two supporting images (only when no rich content) ── */}
-                                    {!serviceDetails?.subsections && !serviceDetails?.styles && (
+                                    {!serviceDetails?.subsections && !serviceDetails?.styles && !serviceDetails?.whyChoose && (
                                         <div className="row mt-4">
                                             <div className="col-md-6 col-sm-6 col-12">
                                                 <div className="wpo-p-details-img">
@@ -188,8 +188,56 @@ const ServiceSinglePage = (props) => {
                                     </div>
                                 )}
 
+                                {/* ── Why Choose cards (student/emerging service) ── */}
+                                {serviceDetails?.whyChoose && (
+                                    <div className="wpo-service-single-item">
+                                        <div className="wpo-service-single-title">
+                                            <h3>{serviceDetails.whyChooseTitle || 'Why Consider Emerging Interior Designers?'}</h3>
+                                        </div>
+                                        <div className="row mt-3">
+                                            {serviceDetails.whyChoose.map((item, i) => (
+                                                <div className="col-md-6 col-12 mb-4" key={i}>
+                                                    <div style={{
+                                                        background: '#f8fafc',
+                                                        borderRadius: 14,
+                                                        padding: '20px 22px',
+                                                        height: '100%',
+                                                        display: 'flex',
+                                                        gap: 16,
+                                                        alignItems: 'flex-start',
+                                                    }}>
+                                                        <div style={{
+                                                            width: 36,
+                                                            height: 36,
+                                                            borderRadius: 10,
+                                                            background: ACCENT,
+                                                            color: '#fff',
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
+                                                            fontWeight: 800,
+                                                            fontSize: 15,
+                                                            flexShrink: 0,
+                                                        }}>
+                                                            {i + 1}
+                                                        </div>
+                                                        <div>
+                                                            <h5 style={{ fontSize: 15, fontWeight: 700, color: '#1e293b', marginBottom: 8 }}>
+                                                                {item.title}
+                                                            </h5>
+                                                            <p style={{ fontSize: 13.5, color: '#64748b', lineHeight: 1.7, margin: 0 }}>
+                                                                {item.desc}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
                                 {/* ── Fallback: Capabilities (only for services without rich content) ── */}
-                                {!serviceDetails?.subsections && !serviceDetails?.styles && (
+                                {!serviceDetails?.subsections && !serviceDetails?.styles && !serviceDetails?.whyChoose && (
                                     <>
                                         <div className="wpo-service-single-item list-widget">
                                             <div className="wpo-service-single-title">
