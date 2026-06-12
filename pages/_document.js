@@ -6,7 +6,8 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta name="description" content="Find affordable interior designers in India for homes, cafes, offices, and commercial spaces. Compare portfolios and hire the right designer for your project." />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+          <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         </Head>
         <body>
           <Main />
