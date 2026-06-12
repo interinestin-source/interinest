@@ -13,10 +13,10 @@ export const metadata: Metadata = {
   description: "Find affordable interior designers in India for homes, cafes, offices, and commercial spaces. Compare portfolios and hire the right designer for your project.",
   icons: {
     icon: [
-      { url: "/images/favicon.png", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/favicon.ico", type: "image/x-icon" },
     ],
-    shortcut: "/favicon.ico",
+    shortcut: "/favicon.svg",
     apple: "/images/favicon.png",
   },
 };

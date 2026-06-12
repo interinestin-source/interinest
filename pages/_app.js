@@ -20,9 +20,10 @@ function MyApp({ Component, pageProps }) {
       <PersistGate loading={null} persistor={persistor}>
         <Head>
           <title>Interior Designers in India for Home &amp; Office | Interinest</title>
-          <link rel="icon" type="image/png" href="/images/favicon.png" />
+          <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-          <link rel="shortcut icon" href="/favicon.ico" />
+          <link rel="shortcut icon" href="/favicon.svg" />
+          <link rel="apple-touch-icon" href="/images/favicon.png" />
         </Head>
         <Component {...pageProps} />
         <ToastContainer />

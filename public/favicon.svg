@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Rounded blue background -->
+  <rect width="100" height="100" rx="22" fill="#7593b4"/>
+  <!-- Arch / bridge shape — the signature element from the Interinest "n" -->
+  <path d="M18 74 L18 50 A32 32 0 0 1 82 50 L82 74" fill="none" stroke="white" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Base line -->
+  <line x1="13" y1="74" x2="87" y2="74" stroke="white" stroke-width="11" stroke-linecap="round"/>
+</svg>
