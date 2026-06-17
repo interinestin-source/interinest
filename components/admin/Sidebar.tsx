@@ -172,9 +172,8 @@ const navigation: SidebarItem[] = [
 
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-center gap-3">
-              <Avatar className="h-12 w-12 border border-blue-500">
-                <AvatarImage src="/avatar.png" alt="User" />
-                <AvatarFallback className="bg-[#7593b4] text-white font-semibold">A</AvatarFallback>
+              <Avatar className="h-12 w-12 border-2" style={{ borderColor: "#7593b4" }}>
+                <AvatarFallback className="bg-[#7593b4] text-white font-bold text-lg">A</AvatarFallback>
               </Avatar>
 
               <div className="flex-1 min-w-0">
