@@ -320,15 +320,6 @@ const ProjectDetailPage = () => {
                   }}>
                     View Designer Profile
                   </Link>
-                  {designer.phone && (
-                    <a href={`tel:${designer.phone}`} style={{
-                      display: 'block', textAlign: 'center', padding: '10px 0', marginTop: 10,
-                      background: '#fff', color: '#7593b4', border: '1.5px solid #7593b4',
-                      borderRadius: 12, fontSize: 13, fontWeight: 600, textDecoration: 'none'
-                    }}>
-                      Contact Designer
-                    </a>
-                  )}
                 </div>
               )}
 
