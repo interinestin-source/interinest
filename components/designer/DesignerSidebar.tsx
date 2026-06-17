@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  X, LogOut, Home, FolderOpen, MessageSquare, LayoutGrid, User, Globe, HelpCircle, FolderPlus,
+  X, LogOut, Home, FolderOpen, LayoutGrid, User, Globe, HelpCircle, FolderPlus,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -20,12 +20,11 @@ interface DesignerSidebarProps {
 }
 
 const navigation = [
-  { name: "Overview",      path: "/dashboard/designer-dashboard",              icon: Home,         exact: true },
-  { name: "Projects",      path: "/dashboard/designer-dashboard/projects",     icon: FolderOpen,   exact: true },
-  { name: "Add Project",   path: "/dashboard/designer-dashboard/projects/add", icon: FolderPlus,   exact: true },
-  { name: "Enquiries",     path: "/dashboard/designer-dashboard/inquiries",    icon: MessageSquare, exact: false },
-  { name: "My Portfolio",  path: "/dashboard/designer-dashboard/portfolio",    icon: LayoutGrid,   exact: false },
-  { name: "Edit Profile",  path: "/dashboard/designer-dashboard/profile",      icon: User,         exact: false },
+  { name: "Overview",      path: "/dashboard/designer-dashboard",              icon: Home,       exact: true },
+  { name: "Projects",      path: "/dashboard/designer-dashboard/projects",     icon: FolderOpen, exact: true },
+  { name: "Add Project",   path: "/dashboard/designer-dashboard/projects/add", icon: FolderPlus, exact: true },
+  { name: "My Portfolio",  path: "/dashboard/designer-dashboard/portfolio",    icon: LayoutGrid, exact: false },
+  { name: "Edit Profile",  path: "/dashboard/designer-dashboard/profile",      icon: User,       exact: false },
 ];
 
 const DesignerSidebar: React.FC<DesignerSidebarProps> = ({ isOpen, onToggle }) => {
