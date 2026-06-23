@@ -129,9 +129,19 @@ const ContactForm = () => {
             <div className="submit-area">
                 <button
                     type="submit"
-                    className="theme-btn"
                     disabled={submitting}
-                    style={{ opacity: submitting ? 0.7 : 1, cursor: submitting ? 'not-allowed' : 'pointer' }}
+                    style={{
+                        background: '#7593b4',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: 12,
+                        padding: '14px 40px',
+                        fontSize: 15,
+                        fontWeight: 700,
+                        cursor: submitting ? 'not-allowed' : 'pointer',
+                        opacity: submitting ? 0.7 : 1,
+                        transition: 'opacity 0.2s',
+                    }}
                 >
                     {submitting ? 'Sending…' : 'Send Message'}
                 </button>

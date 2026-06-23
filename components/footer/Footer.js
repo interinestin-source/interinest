@@ -1,8 +1,6 @@
 import React from 'react'
 import Link from "next/link";
 import Services from '../../api/service';
-import Projects from '../../api/project'
-import Image from 'next/image'
 
 
 const ClickHandler = () => {
@@ -76,14 +74,16 @@ const Footer = (props) => {
                         </div> */}
 
                         <div className="col col-xl-3  col-lg-4 col-md-6 col-sm-12 col-12">
-                            <div className="widget instagram">
+                            <div className="widget link-widget">
                                 <div className="widget-title">
-                                    <h3>Our Gallery</h3>
+                                    <h3>Quick Links</h3>
                                 </div>
-                                <ul className="d-flex">
-                                    {Projects.slice(0, 6).map((project, srv) => (
-                                        <li key={srv}><Link onClick={ClickHandler} href='/project/[slug]' as={`/project/${project.slug}`}><Image src={project.pImg} alt="" /></Link></li>
-                                    ))}
+                                <ul>
+                                    <li><Link onClick={ClickHandler} href="/designers">Browse Designers</Link></li>
+                                    <li><Link onClick={ClickHandler} href="/projects">View Projects</Link></li>
+                                    <li><Link onClick={ClickHandler} href="/about">About Us</Link></li>
+                                    <li><Link onClick={ClickHandler} href="/contact">Contact Us</Link></li>
+                                    <li><Link onClick={ClickHandler} href="/dashboard/register">Join as Designer</Link></li>
                                 </ul>
                             </div>
                         </div>
