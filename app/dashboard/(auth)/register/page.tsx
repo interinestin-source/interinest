@@ -217,7 +217,7 @@ export default function RegisterPage() {
         </div>
       </section>
 
-      <div className="relative -mt-8 px-4 pb-10 sm:px-6 lg:px-8">
+      <div className="relative mt-4 px-4 pb-10 sm:-mt-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl rounded-3xl border border-[#e2d6c3] bg-white/95 p-6 shadow-sm backdrop-blur-sm sm:p-8">
           <header className="mb-6 space-y-1 text-slate-900">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#9b8c77]">Join Interinest</p>
