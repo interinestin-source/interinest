@@ -185,7 +185,7 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-[#f8f4ec]">
       <section
         className="relative h-48 w-full overflow-hidden bg-cover bg-center sm:h-56 md:h-64"
-        style={{ backgroundImage: "url('/images/slider/s3.jpg')" }}
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&q=80&auto=format&fit=crop')" }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/15" />
         <div className="relative z-10 mx-auto flex h-full max-w-5xl flex-col justify-between px-4 py-4 sm:px-6 lg:px-8">
