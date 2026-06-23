@@ -12,7 +12,7 @@ const ContactPage =() => {
             <Navbar Logo={Logo}/>
             <PageTitle pageTitle={'Contact Us'} pagesub={'Contact'}/> 
             <Contactpage/>
-            <Footer ftClass={'wpo-site-footer-s2'}/>
+            <Footer/>
             <Scrollbar/>
         </Fragment>
     )

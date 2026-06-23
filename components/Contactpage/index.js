@@ -1,9 +1,9 @@
 import React from 'react';
-import ContactForm from '../ContactFrom'
+import ContactForm from '../ContactFrom/ContactForm'
 
 const Contactpage = () => {
     return (
-        <section className="wpo-contact-pg-section section-padding">
+        <section className="wpo-contact-pg-section section-padding" style={{ paddingBottom: 100 }}>
             <div className="container">
                 <div className="row">
                     <div className="col col-lg-10 offset-lg-1">
