@@ -325,7 +325,11 @@ const Header = (props) => {
                   ) : (
                     /* ── Not logged in: Login button ── */
                     <div data-swiper-parallax="400" className="slide-btn">
-                      <Link href="/dashboard/login" className="theme-btn">
+                      <Link
+                        href="/dashboard/login"
+                        className="theme-btn"
+                        style={{ background: '#7593b4', borderColor: '#7593b4' }}
+                      >
                         Login
                       </Link>
                     </div>
