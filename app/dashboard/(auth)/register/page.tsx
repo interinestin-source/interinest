@@ -182,11 +182,11 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#f8f4ec]">
+    <div className="flex h-screen overflow-hidden bg-[#f8f4ec]">
 
-      {/* Left brand / visual panel — same structure as login, different image */}
+      {/* Left brand / visual panel — sticky, never scrolls */}
       <div
-        className="relative hidden w-1/2 flex-col justify-between overflow-hidden border-r border-[#e2d6c3] text-[#f8f4ec] lg:flex"
+        className="relative hidden h-screen w-1/2 flex-shrink-0 flex-col justify-between overflow-hidden border-r border-[#e2d6c3] text-[#f8f4ec] lg:flex"
         style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&q=80&auto=format&fit=crop')",
           backgroundSize: "cover",
@@ -252,8 +252,8 @@ export default function RegisterPage() {
         </footer>
       </div>
 
-      {/* Right form panel */}
-      <div className="flex w-full items-start justify-center overflow-y-auto px-4 py-8 sm:px-8 lg:w-1/2">
+      {/* Right form panel — scrolls independently */}
+      <div className="h-screen w-full overflow-y-auto px-4 py-8 sm:px-8 lg:w-1/2">
         <div className="w-full max-w-xl rounded-3xl border border-[#e2d6c3] bg-white/90 p-6 shadow-sm backdrop-blur sm:p-8">
 
           <div className="mb-6 space-y-1">
