@@ -253,7 +253,7 @@ export default function RegisterPage() {
       </div>
 
       {/* Right form panel — scrolls independently */}
-      <div className="h-screen w-full overflow-y-auto px-4 py-8 sm:px-8 lg:w-1/2">
+      <div className="h-screen w-full overflow-y-auto px-4 py-8 sm:px-8 lg:w-1/2 flex flex-col items-center justify-center">
         <div className="w-full max-w-xl rounded-3xl border border-[#e2d6c3] bg-white/90 p-6 shadow-sm backdrop-blur sm:p-8">
 
           <div className="mb-6 space-y-1">
