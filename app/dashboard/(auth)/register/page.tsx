@@ -182,52 +182,93 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f4ec]">
-      <section
-        className="relative h-48 w-full overflow-hidden bg-cover bg-center sm:h-56 md:h-64"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&q=80&auto=format&fit=crop')" }}
+    <div className="flex min-h-screen bg-[#f8f4ec]">
+
+      {/* Left brand / visual panel — same structure as login, different image */}
+      <div
+        className="relative hidden w-1/2 flex-col justify-between overflow-hidden border-r border-[#e2d6c3] text-[#f8f4ec] lg:flex"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&q=80&auto=format&fit=crop')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/15" />
-        <div className="relative z-10 mx-auto flex h-full max-w-5xl flex-col justify-between px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2">
-            <Link href="/">
-              <div style={{ background: "rgba(255,255,255,0.92)", borderRadius: 12, padding: "6px 16px" }}>
-                <Image
-                  width={160}
-                  height={50}
-                  src="/images/logo-interinest.png"
-                  alt="Interinest"
-                  className="object-contain"
-                  style={{ mixBlendMode: "multiply" }}
-                />
-              </div>
-            </Link>
-          </div>
-          <div className="max-w-xl rounded-2xl bg-black/45 px-4 py-3 text-[#f8f4ec] backdrop-blur-md sm:px-5 sm:py-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#f8f4ec]/80">
-              Designer registration
-            </p>
-            <h1 className="mt-1 text-lg font-semibold sm:text-xl">
-              Join the Interinest designer network
-            </h1>
-            <p className="mt-1 text-[11px] sm:text-xs text-[#f8f4ec]/85">
-              Share a few details about your practice so we can match you with the right homeowners and projects.
-            </p>
+        <div className="absolute inset-0">
+          <div className="h-full w-full bg-black/55" />
+          <div className="pointer-events-none absolute inset-0 opacity-40">
+            <div className="absolute -left-10 top-10 h-64 w-64 rounded-full bg-white/25 blur-3xl" />
+            <div className="absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-amber-100/40 blur-3xl" />
           </div>
         </div>
-      </section>
 
-      <div className="relative mt-4 px-4 pb-10 sm:-mt-8 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl rounded-3xl border border-[#e2d6c3] bg-white/95 p-6 shadow-sm backdrop-blur-sm sm:p-8">
-          <header className="mb-6 space-y-1 text-slate-900">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#9b8c77]">Join Interinest</p>
-            <h2 className="text-xl font-semibold sm:text-2xl">Tell us about your design practice</h2>
-            <p className="text-xs text-slate-500">
-              This helps us understand your studio and share relevant client leads. You can always update these details later.
+        <header className="relative z-10 flex items-center gap-2 px-10 pt-9">
+          <Link href="/">
+            <div style={{ background: "rgba(255,255,255,0.92)", borderRadius: 12, padding: "6px 16px" }}>
+              <Image
+                width={160}
+                height={50}
+                src="/images/logo-interinest.png"
+                alt="Interinest"
+                className="object-contain"
+                style={{ mixBlendMode: "multiply" }}
+              />
+            </div>
+          </Link>
+        </header>
+
+        <main className="relative z-10 px-10 pb-16 pt-6">
+          <div className="max-w-xl rounded-3xl bg-black/55 p-6 backdrop-blur-md sm:p-7">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#f8f4ec]/80">
+              Designer Registration
             </p>
-          </header>
+            <h1 className="mt-3 text-3xl font-semibold leading-tight">
+              Join the Interinest
+              <br />
+              Designer Network
+            </h1>
+            <p className="mt-3 text-sm text-[#f8f4ec]/85">
+              Share a few details about your practice so we can match you with the right homeowners and projects across India.
+            </p>
+            <div className="mt-6 space-y-2.5 text-sm text-[#f8f4ec]/90">
+              {[
+                "Get real client inquiries",
+                "Showcase your portfolio",
+                "Get discovered in your city",
+                "Build your design brand",
+              ].map((point) => (
+                <div key={point} className="flex items-center gap-2">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-[11px] font-bold text-white">
+                    ✔
+                  </span>
+                  <span className="text-sm font-medium text-[#fefbf7]">{point}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </main>
+
+        <footer className="relative z-10 px-10 pb-9 text-[11px] text-[#f8f4ec]/80">
+          © {new Date().getFullYear()} Interinest — Interior Designers Marketplace India
+        </footer>
+      </div>
+
+      {/* Right form panel */}
+      <div className="flex w-full items-start justify-center overflow-y-auto px-4 py-8 sm:px-8 lg:w-1/2">
+        <div className="w-full max-w-xl rounded-3xl border border-[#e2d6c3] bg-white/90 p-6 shadow-sm backdrop-blur sm:p-8">
+
+          <div className="mb-6 space-y-1">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#9b8c77]">Join Interinest</p>
+            <h2 className="text-xl font-semibold text-slate-900">Tell us about your design practice</h2>
+            <p className="text-xs text-slate-500">
+              This helps us understand your studio and share relevant client leads. Already registered?{" "}
+              <Link href="/dashboard/login" className="font-medium text-[#7593b4] hover:underline">
+                Log in
+              </Link>
+            </p>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-7 text-sm text-slate-900">
+
             {/* About you */}
             <section className="space-y-4">
               <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#7593b4]">About you</h3>
@@ -400,7 +441,6 @@ export default function RegisterPage() {
 
             {/* Consent */}
             <section className="space-y-3 border-t border-[#efe3d3] pt-4">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#7593b4]">Consent</h3>
               <label className="flex cursor-pointer items-start gap-2 text-xs text-slate-600">
                 <input type="checkbox" name="consent" required className="mt-0.5 h-3.5 w-3.5 accent-[#7593b4]" />
                 <span>
@@ -409,15 +449,28 @@ export default function RegisterPage() {
               </label>
             </section>
 
-            <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-[11px] text-slate-500">
-                After you submit, our team will review your profile and share next steps over email.
-              </p>
-              <Button type="submit" disabled={loading} className="h-10 rounded-xl bg-[#7593b4] px-6 text-xs font-medium text-[#f8f4ec] hover:bg-[#607da0]">
-                {loading ? "Submitting…" : "Submit application"}
-              </Button>
-            </div>
+            <Button
+              type="submit"
+              disabled={loading}
+              className="mt-1 h-10 w-full rounded-xl bg-[#7593b4] text-xs font-medium tracking-wide text-[#f8f4ec] shadow-sm hover:bg-[#607da0]"
+            >
+              {loading ? "Submitting…" : "Submit application"}
+            </Button>
+
+            <p className="text-center text-[11px] text-slate-500">
+              Already have an account?{" "}
+              <Link href="/dashboard/login" className="font-medium text-[#7593b4] hover:underline">
+                Log in
+              </Link>
+            </p>
           </form>
+
+          <p className="mt-6 text-[11px] leading-relaxed text-slate-500">
+            By continuing, you agree to Interinest&apos;s{" "}
+            <Link href="#" className="font-medium text-[#7593b4] hover:underline">Terms</Link>{" "}
+            and{" "}
+            <Link href="#" className="font-medium text-[#7593b4] hover:underline">Privacy Policy</Link>.
+          </p>
         </div>
       </div>
     </div>
