@@ -132,18 +132,17 @@ const MobileMenu = () => {
                 onClick={() => setMenuState(true)}
                 aria-label="Open menu"
                 style={{
-                    background: ACCENT,
+                    background: 'transparent',
                     border: 'none',
-                    borderRadius: 8,
-                    width: 38, height: 36,
+                    padding: '4px 2px',
                     display: 'flex', flexDirection: 'column',
-                    alignItems: 'center', justifyContent: 'center',
-                    gap: 5, cursor: 'pointer', padding: '0 9px',
+                    alignItems: 'flex-start', justifyContent: 'center',
+                    gap: 6, cursor: 'pointer', width: 32, height: 32,
                 }}
             >
-                <span style={{ display: 'block', width: '100%', height: 2, background: '#fff', borderRadius: 2 }} />
-                <span style={{ display: 'block', width: '100%', height: 2, background: '#fff', borderRadius: 2 }} />
-                <span style={{ display: 'block', width: '100%', height: 2, background: '#fff', borderRadius: 2 }} />
+                <span style={{ display: 'block', width: 24, height: 2, background: ACCENT, borderRadius: 2 }} />
+                <span style={{ display: 'block', width: 18, height: 2, background: ACCENT, borderRadius: 2 }} />
+                <span style={{ display: 'block', width: 24, height: 2, background: ACCENT, borderRadius: 2 }} />
             </button>
         </>
     );
