@@ -235,7 +235,7 @@ const DesignerDetailPage = () => {
                 </div>
 
                 {/* Avatar */}
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: -36 }}>
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
                   <div style={{
                     width: 72, height: 72, borderRadius: 18, border: '3px solid #fff',
                     background: 'linear-gradient(135deg,#e8f0f7,#cddbe9)',
@@ -352,23 +352,13 @@ const DesignerDetailPage = () => {
 
                   {/* Contact buttons */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                    {designer.phone && (
-                      <a href={`tel:${designer.phone}`} style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                        background: '#f1f5f9', color: '#475569', borderRadius: 12, padding: '10px 0',
-                        fontWeight: 600, fontSize: 13, textDecoration: 'none'
-                      }}>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.18 19.79 19.79 0 01.22 4a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                        {designer.phone}
-                      </a>
-                    )}
                     {designer.instagram && (
                       <a href={`https://instagram.com/${designer.instagram.replace('@','')}`} target="_blank" rel="noopener noreferrer"
                         style={{ fontSize: 12, color: '#7593b4', textAlign: 'center', display: 'block', textDecoration: 'none' }}>
                         {designer.instagram}
                       </a>
                     )}
-                    {designer.portfolio && (
+                    {designer.portfolio && !/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i.test(designer.portfolio) && (
                       <a href={designer.portfolio} target="_blank" rel="noopener noreferrer"
                         style={{ fontSize: 12, color: '#7593b4', textAlign: 'center', display: 'block', textDecoration: 'none' }}>
                         View Portfolio ↗

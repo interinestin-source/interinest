@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { X } from "lucide-react";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, serverTimestamp, where } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "@/firebase";
 import { toast } from "sonner";
@@ -84,11 +84,14 @@ const STYLE_OPTIONS = [
   "Rustic",
 ];
 
+const PROJECT_LIMIT = 5;
+
 const AddProject: React.FC = () => {
   const [values, setValues] = useState<ProjectFormValues>(initialValues);
   const [saving, setSaving] = useState(false);
   const [tagInput, setTagInput] = useState("");
   const [savedCount, setSavedCount] = useState(0);
+  const [projectCount, setProjectCount] = useState<number | null>(null);
 
   const getUidFromCookie = () => {
     if (typeof document !== "undefined") {
@@ -97,6 +100,14 @@ const AddProject: React.FC = () => {
     }
     return null;
   };
+
+  useEffect(() => {
+    const uid = getUidFromCookie();
+    if (!uid) return;
+    getDocs(query(collection(db, "projects"), where("uid", "==", uid)))
+      .then((snap) => setProjectCount(snap.size))
+      .catch(console.error);
+  }, [savedCount]); // re-check after each successful save
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -145,6 +156,14 @@ const AddProject: React.FC = () => {
     const runSave = async () => {
       setSaving(true);
       try {
+        // Re-check limit at submit time
+        const countSnap = await getDocs(query(collection(db, "projects"), where("uid", "==", uid)));
+        if (countSnap.size >= PROJECT_LIMIT) {
+          setProjectCount(countSnap.size);
+          toast.error(`Free plan allows up to ${PROJECT_LIMIT} projects. Upgrade to add more.`);
+          return;
+        }
+
         if (!values.title.trim()) {
           toast.error("Project title is required");
           return;
@@ -243,6 +262,8 @@ const AddProject: React.FC = () => {
     }
   };
 
+  const limitReached = projectCount !== null && projectCount >= PROJECT_LIMIT;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -250,6 +271,46 @@ const AddProject: React.FC = () => {
       transition={{ duration: 0.35, ease: "easeOut" }}
       className="w-full"
     >
+      {/* Free plan limit banner */}
+      {limitReached && (
+        <div style={{
+          background: "#fff8ec", border: "1.5px solid #f5c96a", borderRadius: 16,
+          padding: "28px 32px", marginBottom: 24, textAlign: "center",
+        }}>
+          <div style={{
+            width: 52, height: 52, borderRadius: 14, background: "#fef3c7",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            margin: "0 auto 16px",
+          }}>
+            <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="#d97706" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+            </svg>
+          </div>
+          <h3 style={{ fontSize: 17, fontWeight: 700, color: "#1e293b", marginBottom: 8 }}>
+            Project limit reached
+          </h3>
+          <p style={{ fontSize: 14, color: "#64748b", maxWidth: 400, margin: "0 auto 20px", lineHeight: 1.6 }}>
+            Your free plan includes up to <strong>{PROJECT_LIMIT} projects</strong>. You currently have <strong>{projectCount}</strong>. Upgrade your plan to add unlimited projects.
+          </p>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+            <a href="/dashboard/designer-dashboard/plans" style={{
+              display: "inline-block", padding: "10px 24px", borderRadius: 10,
+              background: "#7593b4", color: "#fff", fontWeight: 600, fontSize: 14,
+              textDecoration: "none",
+            }}>
+              View plans →
+            </a>
+            <a href="/dashboard/designer-dashboard/projects" style={{
+              display: "inline-block", padding: "10px 24px", borderRadius: 10,
+              background: "#fff", color: "#64748b", fontWeight: 600, fontSize: 14,
+              textDecoration: "none", border: "1.5px solid #e2e8f0",
+            }}>
+              Manage projects
+            </a>
+          </div>
+        </div>
+      )}
+
       <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         {/* Form */}
         <Card className="border border-slate-200 shadow-sm">
@@ -539,7 +600,7 @@ const AddProject: React.FC = () => {
                     <Button
                       type="submit"
                       className="bg-blue-600 hover:bg-blue-700 text-white"
-                      disabled={saving}
+                      disabled={saving || limitReached}
                     >
                       {saving ? (
                         <>

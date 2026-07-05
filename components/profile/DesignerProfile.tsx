@@ -274,7 +274,11 @@ const DesignerProfile: React.FC = () => {
       async () => {
         try {
           const url = await getDownloadURL(task.snapshot.ref);
-          await updateDoc(doc(db, "designers", uid), { photoURL: url, updatedAt: new Date() });
+          const updatePayload = { photoURL: url, updatedAt: new Date() };
+          await Promise.all([
+            updateDoc(doc(db, "designers", uid), updatePayload),
+            updateDoc(doc(db, "interinestUsers", uid), updatePayload),
+          ]);
           setPhotoURL(url);
           toast.success("Profile photo updated!");
         } catch {
@@ -314,6 +318,66 @@ const DesignerProfile: React.FC = () => {
             onSubmit={handleSubmit}
             className="space-y-8 text-sm text-slate-900"
           >
+            {/* Profile photo */}
+            <section className="space-y-3">
+              <h3 className="text-sm font-semibold text-slate-800">Profile photo</h3>
+              <div className="flex items-center gap-5">
+                <div
+                  className="relative flex-shrink-0"
+                  style={{ width: 80, height: 80 }}
+                >
+                  {photoURL ? (
+                    <img
+                      src={photoURL}
+                      alt="Profile"
+                      style={{ width: 80, height: 80, borderRadius: 20, objectFit: "cover", border: "2.5px solid #7593b4" }}
+                    />
+                  ) : (
+                    <div style={{
+                      width: 80, height: 80, borderRadius: 20,
+                      background: "#eef2f7", border: "2.5px solid #7593b4",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: 28, fontWeight: 700, color: "#7593b4",
+                    }}>
+                      {values.fullName?.charAt(0)?.toUpperCase() || "D"}
+                    </div>
+                  )}
+                  {uploading && (
+                    <div style={{
+                      position: "absolute", inset: 0, borderRadius: 20,
+                      background: "rgba(255,255,255,0.75)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: 12, fontWeight: 600, color: "#7593b4",
+                    }}>
+                      {uploadProgress}%
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <input
+                    ref={photoInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    className="hidden"
+                    onChange={handlePhotoChange}
+                  />
+                  <button
+                    type="button"
+                    disabled={uploading}
+                    onClick={() => photoInputRef.current?.click()}
+                    style={{
+                      padding: "8px 18px", borderRadius: 10, fontSize: 13, fontWeight: 600,
+                      background: "#7593b4", color: "#fff", border: "none", cursor: uploading ? "not-allowed" : "pointer",
+                      opacity: uploading ? 0.7 : 1,
+                    }}
+                  >
+                    {uploading ? `Uploading… ${uploadProgress}%` : "Change photo"}
+                  </button>
+                  <p className="mt-1.5 text-xs text-slate-400">JPG, PNG or WebP · max 5 MB</p>
+                </div>
+              </div>
+            </section>
+
             {/* Basic info */}
             <section className="space-y-4">
               <h3 className="text-sm font-semibold text-slate-800">
