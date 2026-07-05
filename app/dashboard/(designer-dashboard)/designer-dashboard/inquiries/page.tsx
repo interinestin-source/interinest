@@ -3,7 +3,7 @@
 import { DesignerHeader as Header } from "@/components/designer/DesignerHeader";
 import Link from "next/link";
 
-const ACCENT = "#CAAB06";
+const ACCENT = "#7593b4";
 
 export default function DesignerInquiriesPage() {
   const breadcrumbs = [

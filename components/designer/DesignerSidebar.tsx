@@ -11,8 +11,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 
-const ACCENT = "#CAAB06";
-const ACCENT_BG = "#faf6e6";
+const ACCENT = "#7593b4";
+const ACCENT_BG = "#eef2f7";
 
 interface DesignerSidebarProps {
   isOpen: boolean;

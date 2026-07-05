@@ -128,8 +128,8 @@ export default function DesignerDashboard() {
     0
   );
 
-  const COLOR = "#CAAB06";
-  const ACCENT_BG = "#faf6e6";
+  const COLOR = "#7593b4";
+  const ACCENT_BG = "#eef2f7";
 
   const stats: StatItem[] = [
     {
@@ -158,9 +158,9 @@ export default function DesignerDashboard() {
       value: drafts,
       sub: "Not yet published",
       icon: FileText,
-      accent: "#fefce8",
-      iconColor: "#ca8a04",
-      stripe: "#ca8a04",
+      accent: "#f1f5f9",
+      iconColor: "#64748b",
+      stripe: "#64748b",
     },
     {
       id: "images",
@@ -194,7 +194,7 @@ export default function DesignerDashboard() {
 
         {/* ── Welcome banner ─────────────────────────────── */}
         <div className="relative overflow-hidden rounded-2xl shadow-sm"
-          style={{ background: `linear-gradient(135deg, ${COLOR} 0%, #b89205 60%, #8a6e04 100%)` }}>
+          style={{ background: `linear-gradient(135deg, ${COLOR} 0%, #5a7a9e 60%, #4a6a8e 100%)` }}>
           {/* decorative circles */}
           <div className="absolute -top-12 -right-12 w-56 h-56 rounded-full bg-white/10 pointer-events-none" />
           <div className="absolute bottom-0 right-32 w-28 h-28 rounded-full bg-white/10 pointer-events-none" />
@@ -221,8 +221,8 @@ export default function DesignerDashboard() {
 
             <Link
               href="/dashboard/designer-dashboard/projects/add"
-              className="inline-flex items-center gap-2 bg-white font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-yellow-50 transition shadow-sm flex-shrink-0"
-              style={{ color: "#8a6e04" }}
+              className="inline-flex items-center gap-2 bg-white font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-blue-50 transition shadow-sm flex-shrink-0"
+              style={{ color: "#4a6a8e" }}
             >
               <FolderPlus className="w-4 h-4" />
               Add New Project
