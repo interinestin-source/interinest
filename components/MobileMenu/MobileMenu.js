@@ -3,19 +3,17 @@ import Link from "next/link";
 
 const ACCENT = "#7593b4";
 
+// Mirrors exactly the desktop header nav links
 const menus = [
     { id: 1, title: 'Home',      link: '/' },
     { id: 2, title: 'About',     link: '/home#about-us' },
     { id: 3, title: 'Designers', link: '/designers' },
     { id: 4, title: 'Projects',  link: '/projects' },
-    { id: 5, title: 'Services',  link: '/service' },
-    { id: 6, title: 'Contact',   link: '/contact' },
-    { id: 7, title: 'Login',     link: '/dashboard/login' },
+    { id: 5, title: 'Contact',   link: '/contact' },
 ];
 
 const MobileMenu = () => {
     const [menuActive, setMenuState] = useState(false);
-
     const close = () => setMenuState(false);
 
     return (
@@ -45,36 +43,35 @@ const MobileMenu = () => {
                 boxShadow: '4px 0 24px rgba(0,0,0,0.12)',
                 display: 'flex',
                 flexDirection: 'column',
-                overflowY: 'auto',
             }}>
-                {/* Header */}
+                {/* Header row */}
                 <div style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '18px 20px',
+                    padding: '16px 20px',
                     borderBottom: '1px solid #f0f0f0',
                 }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src="/images/logo-interinest.png"
                         alt="Interinest"
-                        style={{ height: 36, width: 'auto', mixBlendMode: 'multiply' }}
+                        style={{ height: 34, width: 'auto', mixBlendMode: 'multiply' }}
                     />
                     <button
                         onClick={close}
                         aria-label="Close menu"
                         style={{
                             background: '#f5f5f5', border: 'none',
-                            borderRadius: '50%', width: 34, height: 34,
+                            borderRadius: '50%', width: 32, height: 32,
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            cursor: 'pointer', fontSize: 16, color: '#555',
+                            cursor: 'pointer', fontSize: 15, color: '#555',
                         }}
                     >
                         ✕
                     </button>
                 </div>
 
-                {/* Nav items */}
-                <nav style={{ flex: 1, padding: '12px 0' }}>
+                {/* Nav links — same as header */}
+                <nav style={{ flex: 1, padding: '8px 0' }}>
                     {menus.map((item) => (
                         <Link
                             key={item.id}
@@ -82,37 +79,44 @@ const MobileMenu = () => {
                             onClick={close}
                             style={{
                                 display: 'block',
-                                padding: '13px 24px',
+                                padding: '14px 24px',
                                 fontSize: 15,
                                 fontWeight: 500,
-                                color: item.title === 'Login' ? ACCENT : '#1e293b',
+                                color: '#1e293b',
                                 textDecoration: 'none',
-                                borderBottom: '1px solid #f8f8f8',
-                                transition: 'background 0.15s, color 0.15s',
+                                fontFamily: 'inherit',
+                                letterSpacing: '0.01em',
                             }}
-                            onMouseEnter={e => {
-                                e.currentTarget.style.background = '#f0f5fa';
-                                e.currentTarget.style.color = ACCENT;
-                            }}
-                            onMouseLeave={e => {
-                                e.currentTarget.style.background = 'transparent';
-                                e.currentTarget.style.color = item.title === 'Login' ? ACCENT : '#1e293b';
-                            }}
+                            onMouseEnter={e => e.currentTarget.style.color = ACCENT}
+                            onMouseLeave={e => e.currentTarget.style.color = '#1e293b'}
                         >
                             {item.title}
                         </Link>
                     ))}
                 </nav>
 
-                {/* Footer CTA */}
-                <div style={{ padding: '16px 20px', borderTop: '1px solid #f0f0f0' }}>
+                {/* Login button — same as header */}
+                <div style={{ padding: '16px 20px', borderTop: '1px solid #f0f0f0', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    <Link
+                        href="/dashboard/login"
+                        onClick={close}
+                        style={{
+                            display: 'block', textAlign: 'center',
+                            padding: '11px 0',
+                            background: ACCENT, color: '#fff',
+                            borderRadius: 10, fontWeight: 600, fontSize: 14,
+                            textDecoration: 'none',
+                        }}
+                    >
+                        Login
+                    </Link>
                     <Link
                         href="/dashboard/register"
                         onClick={close}
                         style={{
                             display: 'block', textAlign: 'center',
                             padding: '11px 0',
-                            background: ACCENT, color: '#fff',
+                            border: `1.5px solid ${ACCENT}`, color: ACCENT,
                             borderRadius: 10, fontWeight: 600, fontSize: 14,
                             textDecoration: 'none',
                         }}
