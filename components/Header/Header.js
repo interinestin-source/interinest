@@ -245,7 +245,7 @@ const Header = (props) => {
                             : authUser.role === "designer" ? "D"
                             : "U"}
                         </span>
-                        <span style={{ fontSize: 13, fontWeight: 500, textTransform: "capitalize" }}>
+                        <span className="hidden sm:inline" style={{ fontSize: 13, fontWeight: 500, textTransform: "capitalize" }}>
                           {authUser.role}
                         </span>
                         {/* Chevron */}
