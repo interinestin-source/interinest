@@ -27,21 +27,20 @@ const Footer = (props) => {
                                 <p>Interinest is a curated marketplace for discovering and hiring independent interior designers in India. We empower design professionals and help clients bring their spaces to life.</p>
                                 <ul>
                                     <li>
-                                        <Link onClick={ClickHandler} href="/">
+                                        <Link onClick={ClickHandler} href="https://www.facebook.com/profile.php?id=61591539221376" target="_blank" rel="noopener noreferrer">
                                             <i className="ti-facebook"></i>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link onClick={ClickHandler} href="/">
-                                            <i className="ti-twitter-alt"></i>
+                                        <Link onClick={ClickHandler} href="https://www.linkedin.com/company/interinest/" target="_blank" rel="noopener noreferrer">
+                                            <i className="ti-linkedin"></i>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link onClick={ClickHandler} href="https://www.instagram.com/interinest/">
+                                        <Link onClick={ClickHandler} href="https://www.instagram.com/interinest/" target="_blank" rel="noopener noreferrer">
                                             <i className="ti-instagram"></i>
                                         </Link>
                                     </li>
-
                                 </ul>
                             </div>
                         </div>
